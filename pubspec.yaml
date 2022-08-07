@@ -36,6 +36,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons:
+  flutter_credit_card:
   bloc:
   flutter_bloc:
   http:
@@ -70,6 +71,14 @@ dependencies:
   country_icons:
   bubble:
   flutter_ticket_widget:
+  qr_flutter:
+  animated_text_kit:
+  flutter_swiper_plus:
+  #for firebase
+  firebase_core:
+  firebase_database:
+  firebase_auth:
+  firebase_storage:
 
 
 

@@ -5,6 +5,9 @@ import 'package:safari/bottomnavigationbar/MyTrip.dart';
 import 'package:safari/bottomnavigationbar/coins.dart';
 import 'package:safari/bottomnavigationbar/favorite.dart';
 import 'package:safari/Forums/Forums.dart';
+import 'package:safari/currencyexchange/currencyexchange.dart';
+import 'package:safari/currencyexchange/currencyexchange_bloc/currency_states.dart';
+import 'package:safari/currencyexchange/currencyexchange_bloc/currrency_cubit.dart';
 import 'package:safari/forums/businesslogic/Forums_Cubit.dart';
 import 'package:safari/forums/businesslogic/Forums_States.dart';
 import 'package:safari/forums/datalayer/Comment_Repository.dart';
@@ -22,10 +25,12 @@ class AppCubit extends Cubit<AppState>{
 
   List<Widget> screens = [
     Favorite(),
-    Coins(),
+    // Coins(),
+    BlocProvider(create:(BuildContext context)=>CurrencyCubit(CurrencyInitialState()),child: CurrencyExchange()),
     Main(),
     // Question(),
-    BlocProvider(create:(BuildContext context)=>ForumsCubit(ForumsInitialState(),CommentsRepository(CommentsAPI())),child: Forums()),
+    Forums(),
+    // BlocProvider(create:(BuildContext context)=>ForumsCubit(ForumsInitialState(),CommentsRepository(CommentsAPI())),child: Forums()),
     MyTrip(),
   ];
 

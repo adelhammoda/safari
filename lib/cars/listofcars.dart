@@ -1,34 +1,257 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:safari/animation/animateroute.dart';
 import 'package:safari/cars/information.dart';
+import 'package:safari/models/components/car.dart';
 import 'package:safari/offers/offer.dart';
+import 'package:safari/register/bloc/States_Register.dart';
+import 'package:safari/server/database_client.dart';
 
+// class ListCars extends StatefulWidget {
+//   const ListCars({Key? key}) : super(key: key);
+
+//   @override
+//   _ListCarsState createState() => _ListCarsState();
+// }
+
+// class _ListCarsState extends State<ListCars> {
+
+//   List<Images> imageList = [
+//     Images( image:('images/1652625125006-modified.png'),index: 0,title: "UberX",price: "5"),
+//     Images( image:('images/bus101-modified.png'),index: 1,title: "UberX",price: "4"),
+//     Images( image:('images/van101-modified.png'),index: 2,title: "UberX",price: "3"),
+//     Images( image:('images/car101-modified.png'),index: 3,title: "UberX",price: "55"),
+//   ];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         elevation: 0,
+//         leading: IconButton(
+//           onPressed: (){
+//             Navigator.pop(context);
+//           },
+//           icon: Icon(
+//             Icons.arrow_back,
+//           ),
+//         ),
+//       ),
+//       extendBodyBehindAppBar: true,
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.only(top: 10,left: 0,right: 0,bottom: 0),
+//           child: Column(
+//             children: [
+//               ListOFCars(),
+
+//             ],
+//           ),
+//       ),
+//       ),
+//     );
+//   }
+//   Widget ListOFCars (){
+//     return Center(
+//       child: SingleChildScrollView(
+//         child: SizedBox(
+//           width: (MediaQuery.of(context).size.width)-50,
+//           height: (MediaQuery.of(context).size.height),
+//           child: ListView.builder(
+//             itemCount: imageList.length,
+//             scrollDirection: Axis.vertical,
+//             itemBuilder: (context,index)=>Padding(
+//               padding: const EdgeInsets.only(bottom: 20),
+//               child: Stack(
+//                clipBehavior: Clip.none,
+//                 children: [
+
+//                   Container(
+
+//                     child: Card(
+
+//                 color: Colors.white,
+//                 clipBehavior: Clip.antiAlias,
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(25),
+//                 ),
+//                 child: Container(
+//                     width: (MediaQuery.of(context).size.width),
+//                     height: (MediaQuery.of(context).size.height)-705,
+//                     color: Color(0xffffbf00),
+//                     ),
+//                     ),
+//                   ),
+//                   Container(
+
+//                      child: Stack(
+//                       clipBehavior: Clip.none,
+//                        children: [
+//                         Card(
+//                          elevation: 5,
+//                          color: Colors.white,
+//                          clipBehavior: Clip.antiAlias,
+//                          shape: RoundedRectangleBorder(
+//                            borderRadius: BorderRadius.circular(25),
+//                          ),
+//                          child: Container(
+//                             width: (MediaQuery.of(context).size.width)-68,
+//                              height: (MediaQuery.of(context).size.height)-705,
+//                              color: Colors.white,
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.start,
+//                              crossAxisAlignment: CrossAxisAlignment.start,
+//                              children: [
+//                        Column(
+//                          children: [
+//                            Expanded(
+//                             flex: 3,
+//                              child: Padding(
+//                               padding: const EdgeInsets.only(right: 100,),
+//                              child: MaterialButton(
+//                                onPressed: () {
+//                                   Navigator.of(context).push(Slide6(Page: InfoCars()));
+//                                 },
+//                                child: Text(
+//                                  imageList[index].title,
+//                                  style: TextStyle(
+//                                    color: Colors.grey[500],
+//                                    fontSize: 18,
+//                                  ),
+//                                ),
+//                              ),
+//                              ),
+//                            ),
+
+//                            Expanded(
+//                              child: Padding(
+//                                padding: const EdgeInsets.only(right: 131,),
+//                                child: Container(
+
+//                                 width: 70,
+//                                 height: 25,
+
+//                                 child: Center(
+//                                 child: Text(
+//                                   imageList[index].price,
+//                                   style: TextStyle(
+//                                     color: Colors.black,
+//                                   ),
+//                                 ),
+//                                                               ),
+//                                decoration: BoxDecoration(
+//                                  borderRadius: BorderRadius.only(topRight: Radius.circular(25.0,),
+//                                    bottomLeft: Radius.circular(25.0,),
+//                                  ),
+//                                  color: Color(0xffffbf00),
+//                                                               ),
+//                                                             ),
+//                              ),
+//                            ),
+
+//                          ],
+//                        ),
+
+//                         SizedBox(width: 0,),
+
+//                                          ],
+//                                        ),
+//                                      ),
+
+//                                    ),
+//                        ],
+//                      ),
+
+//                 ),
+//                  Padding(
+//                    padding: const EdgeInsets.only(right: 15),
+//                    child: Align(
+//                     alignment: Alignment.centerRight,
+//                      child: Image(
+
+//                               image: AssetImage(
+//                                 imageList[index].image,
+
+//                                 ),
+
+//                               width: (MediaQuery.of(context).size.width)-270,
+//                               height: (MediaQuery.of(context).size.height)-700,
+//                               fit: BoxFit.cover,
+//                               ),
+//                    ),
+//                  ),
+
+//                 ],
+//               ),
+
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+
+//   }
+// }
+
+// class Images {
+//   String image;
+//   int index;
+//   String title;
+//   String price;
+//   Images({required this.image, required this.index, required this.title, required this.price});
+// }
 
 class ListCars extends StatefulWidget {
-  const ListCars({Key? key}) : super(key: key);
+  final List<String> carsId;
+
+  const ListCars({Key? key, this.carsId = const []}) : super(key: key);
 
   @override
   _ListCarsState createState() => _ListCarsState();
 }
 
 class _ListCarsState extends State<ListCars> {
-  // final List<Map<String, dynamic>> _items = List.generate(
-  //     4,
-  //         (index) => {
-  //       "id": index,
-  //       "title": "Item $index",
-  //       "height": Random().nextInt(150) + 50.5
-  //     });
-  List<Images> imageList = [
-    Images( image:('images/malaysia1.jpg'),index: 0),
-    Images( image:('images/malaysia2.jpg'),index: 1),
-    Images( image:('images/malaysia6.jpg'),index: 2),
-    Images( image:('images/malaysia7.jpg'),index: 3),
-    // Images( image:( 'images/malaysia8.jpg'),),
+  final ValueNotifier<bool> _loading = ValueNotifier(false);
+  final ValueNotifier<List<Car>> _cars = ValueNotifier([]);
 
-  ];
+  Future<void> _fetchCars() async {
+    try {
+      debugPrint("Start fetching");
+      debugPrint(widget.carsId.toString());
+      _loading.value = true;
+      for (String carId in widget.carsId) {
+        debugPrint("Fetching ${carId}");
+        Car? c = await DataBaseClintServer.getCar(carId);
+        debugPrint('fetching completed');
+        if (c != null) {
+          _cars.value.add(c);
+          List<Car> temp = List.from(_cars.value);
+          _cars.value = List.from(temp);
+          debugPrint("adding to list completed");
+        }else{
+          debugPrint("adding to list canceling the value is null");
+        }
+        if (_cars.value.isNotEmpty) {
+          debugPrint("canceling loading indicator");
+          _loading.value = false;
+        }
+      }
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("error in fetching cars")));
+    }
+  }
+
+ @override
+  initState() {
+    super.initState();
+    _fetchCars();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +259,7 @@ class _ListCarsState extends State<ListCars> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(
@@ -47,681 +270,402 @@ class _ListCarsState extends State<ListCars> {
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 110,left: 7,right: 5,bottom: 20),
+          padding: EdgeInsets.only(top: 10, left: 0, right: 0, bottom: 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Ink.image(
-                    image: AssetImage(
-                      'images/1652625125006-modified.png',
-                    ),
-                    child: Stack(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(Slide6(Page: InfoCars()));
-                          },
-                        ),],),
-                    width: (MediaQuery.of(context).size.width)-240,
-                    height:  (MediaQuery.of(context).size.height)-635,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(width: 15,),
-                  MaterialButton(
-                    onPressed: (){
-                      Navigator.of(context).push(Slide6(Page: InfoCars()));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'UberX',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            Text(
-                              '4',
-                              style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-                            SizedBox(width: 20,),
-                            Text(
-                              '20D',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Container(
-                          width: 160,
-                          child: Text(
-                            'every day',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              Row(
-                children: [
-                  Ink.image(
-                    image: AssetImage(
-                      'images/bus101-modified.png',
-                    ),
-                    child: Stack(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(Slide6(Page: InfoCars()));
-                          },
-                        ),],),
-                    width: (MediaQuery.of(context).size.width)-240,
-                    height:  (MediaQuery.of(context).size.height)-635,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(width: 15,),
-                  MaterialButton(
-                    onPressed: (){
-                      Navigator.of(context).push(Slide6(Page: InfoCars()));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'UberX',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            Text(
-                              '8',
-                              style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-                            SizedBox(width: 20,),
-                            Text(
-                              '200D',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Container(
-                          width: 160,
-                          child: Text(
-                            'every day',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              Row(
-                children: [
-                  Ink.image(
-                    image: AssetImage(
-                      'images/van101-modified.png',
-                    ),
-                    child: Stack(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(Slide6(Page: InfoCars()));
-                          },
-                        ),],),
-                    width: (MediaQuery.of(context).size.width)-240,
-                    height:  (MediaQuery.of(context).size.height)-635,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(width: 15,),
-                  MaterialButton(
-                    onPressed: (){
-                      Navigator.of(context).push(Slide6(Page: InfoCars()));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'UberX',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            Text(
-                              '6',
-                              style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-                            SizedBox(width: 20,),
-                            Text(
-                              '75D',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Container(
-                          width: 160,
-                          child: Text(
-                            'every day',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              Row(
-                children: [
-                  Ink.image(
-                    image: AssetImage(
-                      'images/car101-modified.png',
-                    ),
-                    child: Stack(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(Slide6(Page: InfoCars()));
-                          },
-                        ),],),
-                    width: (MediaQuery.of(context).size.width)-240,
-                    height:  (MediaQuery.of(context).size.height)-635,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(width: 15,),
-                  MaterialButton(
-                    onPressed: (){
-                      Navigator.of(context).push(Slide6(Page: InfoCars()));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'UberX',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            Text(
-                              '4',
-                              style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-                            SizedBox(width: 20,),
-                            Text(
-                              '50D',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Container(
-                          width: 160,
-                          child: Text(
-                            'every day',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              // Row(
-              //   children: [
-              //     Ink.image(
-              //       image: AssetImage(
-              //         'images/cart11.jpg',
-              //       ),
-              //       child: Stack(
-              //         children: [
-              //           InkWell(
-              //             onTap: (){
-              //               Navigator.of(context).push(Slide6(Page: InfoCars()));
-              //             },
-              //           ),],),
-              //       width: (MediaQuery.of(context).size.width)-225,
-              //                         height:  (MediaQuery.of(context).size.height)-620,
-              //       fit: BoxFit.cover,
-              //     ),
-              //     SizedBox(width: 15,),
-              //     Column(
-              //       children: [
-              //         Row(
-              //           children: [
-              //             Text(
-              //               'UberX',
-              //               style: TextStyle(
-              //                 color: Colors.black,
-              //                 fontWeight: FontWeight.w700,
-              //                 fontSize: 24,
-              //               ),
-              //             ),
-              //             SizedBox(width: 10,),
-              //             Text(
-              //               '4',
-              //               style: TextStyle(
-              //                 color: Colors.indigo,
-              //                 fontWeight: FontWeight.w500,
-              //                 fontSize: 18,
-              //               ),
-              //             ),
-              //             SizedBox(width: 5,),
-              //             Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-              //             SizedBox(width: 40,),
-              //             Text(
-              //               '20D',
-              //               style: Theme.of(context).textTheme.headline4,
-              //             ),
-              //           ],
-              //         ),
-              //         SizedBox(height: 20,),
-              //         Container(
-              //           width: 160,
-              //           child: Text(
-              //             'every day',
-              //             style: Theme.of(context).textTheme.subtitle1,
-              //             textAlign: TextAlign.left,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(height: 20,),
-              // Row(
-              //   children: [
-              //     Ink.image(
-              //       image: AssetImage(
-              //         'images/cart11.jpg',
-              //       ),
-              //       child: Stack(
-              //         children: [
-              //           InkWell(
-              //             onTap: (){
-              //               Navigator.of(context).push(Slide6(Page: InfoCars()));
-              //             },
-              //           ),],),
-              //      width: (MediaQuery.of(context).size.width)-225,
-              //                         height:  (MediaQuery.of(context).size.height)-620,
-              //       fit: BoxFit.cover,
-              //     ),
-              //     SizedBox(width: 15,),
-              //     Column(
-              //       children: [
-              //         Row(
-              //           children: [
-              //             Text(
-              //               'UberX',
-              //               style: TextStyle(
-              //                 color: Colors.black,
-              //                 fontWeight: FontWeight.w700,
-              //                 fontSize: 24,
-              //               ),
-              //             ),
-              //             SizedBox(width: 10,),
-              //             Text(
-              //               '4',
-              //               style: TextStyle(
-              //                 color: Colors.indigo,
-              //                 fontWeight: FontWeight.w500,
-              //                 fontSize: 18,
-              //               ),
-              //             ),
-              //             SizedBox(width: 5,),
-              //             Icon(Icons.people_sharp,color: Colors.indigo,size: 25,),
-              //             SizedBox(width: 40,),
-              //             Text(
-              //               '20D',
-              //               style: Theme.of(context).textTheme.headline4,
-              //             ),
-              //           ],
-              //         ),
-              //         SizedBox(height: 20,),
-              //         Container(
-              //           width: 160,
-              //           child: Text(
-              //             'every day',
-              //             style: Theme.of(context).textTheme.subtitle1,
-              //             textAlign: TextAlign.left,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(height: 20,),
+              ListOFCars(),
             ],
           ),
-          //     GridView.count(
-          //         primary: false,
-          //         padding: const EdgeInsets.all(20),
-          //         crossAxisSpacing: 15,
-          //         mainAxisSpacing: 10,
-          //         crossAxisCount: 2,
-          //         children: <Widget>[
-          //         Ink.image(
-          //                     image: AssetImage(
-          //                         'images/cart11.jpg',
-          //               ),
-          //                 child: Stack(
-          //                   children: [
-          //                     InkWell(
-          //                     onTap: (){
-          //                       Navigator.of(context).push(Slide6(Page: InfoCars()));
-          //                     },
-          //                   ),
-          //                     Positioned(
-          //                       bottom: 0,
-          //                       right: 0,
-          //                       child: Container(
-          //                         width: (MediaQuery.of(context).size.width)-220,
-          //                         height: 40,
-          //                         color: Colors.black54,
-          //                         padding: EdgeInsets.all(10),
-          //                         child: MaterialButton(
-          //                           onPressed: (){},
-          //                           child: Center(
-          //                              child: Text(
-          //                               'Taxi to 4 P',
-          //                               style: TextStyle(
-          //                                 color: Colors.yellowAccent,
-          //                                 fontSize: 18,
-          //                                 fontWeight: FontWeight.w800,
-          //                               ),
-          //                             ),
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                    ],
-          //                 ),
-          //           //width: (MediaQuery.of(context).size.width)-270,
-          //           //height:  (MediaQuery.of(context).size.height)-640,
-          //           //fit: BoxFit.cover,
-          //         ),
-          //         Ink.image(
-          //             image: AssetImage(
-          //               'images/car9.jpg',
-          //             ),
-          //             child: Stack(
-          //               children: [
-          //                 InkWell(
-          //                   onTap: (){
-          //                     Navigator.of(context).push(Slide6(Page: InfoCars()));
-          //                   },
-          //                 ),
-          //                 Positioned(
-          //                   bottom: 0,
-          //                   right: 0,
-          //                   child: Container(
-          //                     width: (MediaQuery.of(context).size.width)-220,
-          //                     height: 40,
-          //                     color: Colors.black54,
-          //                     padding: EdgeInsets.all(10),
-          //                     child: MaterialButton(
-          //                       onPressed: (){},
-          //                       child: Center(
-          //                         child: Text(
-          //                           'Car to 4 P',
-          //                           style: TextStyle(
-          //                             color: Colors.yellowAccent,
-          //                             fontSize: 18,
-          //                             fontWeight: FontWeight.w800,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             //width: (MediaQuery.of(context).size.width)-270,
-          //             //height:  (MediaQuery.of(context).size.height)-640,
-          //             //fit: BoxFit.cover,
-          //           ),
-          //         Ink.image(
-          //             image: AssetImage(
-          //               'images/cart11.jpg',
-          //             ),
-          //             child: Stack(
-          //               children: [
-          //                 InkWell(
-          //                   onTap: (){
-          //                     Navigator.of(context).push(Slide6(Page: InfoCars()));
-          //                   },
-          //                 ),
-          //                 Positioned(
-          //                   bottom: 0,
-          //                   right: 0,
-          //                   child: Container(
-          //                     width: (MediaQuery.of(context).size.width)-220,
-          //                     height: 40,
-          //                     color: Colors.black54,
-          //                     padding: EdgeInsets.all(10),
-          //                     child: MaterialButton(
-          //                       onPressed: (){},
-          //                       child: Center(
-          //                         child: Text(
-          //                           'Bus to 25 P',
-          //                           style: TextStyle(
-          //                             color: Colors.yellowAccent,
-          //                             fontSize: 18,
-          //                             fontWeight: FontWeight.w800,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             //width: (MediaQuery.of(context).size.width)-270,
-          //             //height:  (MediaQuery.of(context).size.height)-640,
-          //             //fit: BoxFit.cover,
-          //           ),
-          //         Ink.image(
-          //             image: AssetImage(
-          //               'images/cart11.jpg',
-          //             ),
-          //             child: Stack(
-          //               children: [
-          //                 InkWell(
-          //                   onTap: (){
-          //                     Navigator.of(context).push(Slide6(Page: InfoCars()));
-          //                   },
-          //                 ),
-          //                 Positioned(
-          //                   bottom: 0,
-          //                   right: 0,
-          //                   child: Container(
-          //                     width: (MediaQuery.of(context).size.width)-220,
-          //                     height: 40,
-          //                     color: Colors.black54,
-          //                     padding: EdgeInsets.all(10),
-          //                     child: MaterialButton(
-          //                       onPressed: (){},
-          //                       child: Center(
-          //                         child: Text(
-          //                           'VIP to 8 P',
-          //                           style: TextStyle(
-          //                             color: Colors.yellowAccent,
-          //                             fontSize: 18,
-          //                             fontWeight: FontWeight.w800,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             //width: (MediaQuery.of(context).size.width)-270,
-          //             //height:  (MediaQuery.of(context).size.height)-640,
-          //             //fit: BoxFit.cover,
-          //           ),
-          //         Ink.image(
-          //             image: AssetImage(
-          //               'images/carv22.jpg',
-          //             ),
-          //             child: Stack(
-          //               children: [
-          //                 InkWell(
-          //                   onTap: (){
-          //                     Navigator.of(context).push(Slide6(Page: InfoCars()));
-          //                   },
-          //                 ),
-          //                 Positioned(
-          //                   bottom: 0,
-          //                   right: 0,
-          //                   child: Container(
-          //                     width: (MediaQuery.of(context).size.width)-220,
-          //                     height: 40,
-          //                     color: Colors.black54,
-          //                     padding: EdgeInsets.all(10),
-          //                     child: MaterialButton(
-          //                       onPressed: (){},
-          //                       child: Center(
-          //                         child: Text(
-          //                           'Van to 8 P',
-          //                           style: TextStyle(
-          //                             color: Colors.yellowAccent,
-          //                             fontSize: 18,
-          //                             fontWeight: FontWeight.w800,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             //width: (MediaQuery.of(context).size.width)-270,
-          //             //height:  (MediaQuery.of(context).size.height)-640,
-          //             //fit: BoxFit.cover,
-          //           ),
-          //    ],
-          // ),
-          // GridView.custom(
-          //   gridDelegate: SliverWovenGridDelegate.count(
-          //     crossAxisCount: 2,
-          //     mainAxisSpacing: 10,
-          //     crossAxisSpacing: 6,
-          //     pattern: [
-          //       WovenGridTile(1),
-          //       WovenGridTile(
-          //         7 / 6 ,
-          //         crossAxisRatio: 0.9,
-          //         alignment: AlignmentDirectional.centerEnd,
-          //       ),
-          //     ],
-          //   ),
-          //   childrenDelegate: SliverChildBuilderDelegate(
-          //         (context, index) => Ink.image(
-          //               image: AssetImage(
-          //                   imageList[index].image,
-          //         ),//Image( imageList[index].image,),
-          //           child: InkWell(
-          //             onTap: (){
-          //               Navigator.of(context).push(SlideRight(Page: Offers()));
-          //               //context.read<MainScreenBloc>().add(OfferEvent());
-          //             },
-          //           ),
-          //   ),
-          // ),
-          //     MasonryGridView.count(
-          //     itemCount: 4,
-          // padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          // // the number of columns
-          // crossAxisCount: 2,
-          // // vertical gap between two items
-          // mainAxisSpacing: 8,
-          // // horizontal gap between two items
-          // crossAxisSpacing: 8,
-          // itemBuilder: (context, index) {
-          // // display each item with a card
-          // return  Container(
-          //   width: 250,
-          //   height: 100,
-          //   child: Ink.image(
-          //                   image: AssetImage(
-          //                       imageList[index].image,
-          //             ),//Image( imageList[index].image,),
-          //                width: 250,
-          //               height: 100,
-          //               child: InkWell(
-          //                 onTap: (){
-          //                   Navigator.of(context).push(SlideRight(Page: Offers()));
-          //                   //context.read<MainScreenBloc>().add(OfferEvent());
-          //                 },
-          //               ),
-          //       ),
-          // );
-          //
-          //
-          //
-          // },
-          // ),),
         ),
+      ),
+    );
+  }
+
+  Widget ListOFCars() {
+    return SizedBox(
+      width: (MediaQuery.of(context).size.width),
+      height: (MediaQuery.of(context).size.height),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _loading,
+        builder: (c,value,child)=>value?
+        const  Center(child: CircularProgressIndicator(color: Colors.orange,)):
+        child!,
+        child: ValueListenableBuilder<List<Car>>(
+          builder: (c,cars,child)=>Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: (MediaQuery.of(context).size.width) - 50,
+                height: (MediaQuery.of(context).size.height),
+                child: ListView.builder(
+                  itemCount: cars.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) => SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              isDismissible: true,
+                              backgroundColor: Colors.lightBlueAccent,
+                              isScrollControlled: true,
+                              enableDrag: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(35.0),
+                                ),
+                              ),
+                              clipBehavior: Clip.none,
+                              context: context,
+                              builder: (BuildContext buildContext) =>
+                                  CarInfo(cars[index]));
+                        },
+
+                        //Navigator.of(context).push(Slide6(Page: InfoCars()));},
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height *0.2,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Card(
+                                color: Colors.white,
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: Container(
+                                  width: (MediaQuery.of(context).size.width),
+                                  height: (MediaQuery.of(context).size.height) *0.2,
+                                  color: index.isEven
+                                      ? Colors.lightBlueAccent
+                                      : const Color(0xffffbf00),
+                                ),
+                              ),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Card(
+                                    elevation: 5,
+                                    color: Colors.white,
+                                    clipBehavior: Clip.antiAlias,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Container(
+                                      width: (MediaQuery.of(context).size.width) - 68,
+                                      height:
+                                      (MediaQuery.of(context).size.height) *0.2,
+                                      color: Colors.white,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                      left: 20,
+                                                      top: 40,
+                                                    ),
+                                                    child: Text(
+                                                      "Capacity ${cars[index].capacity.toString()}",
+                                                      style: TextStyle(
+                                                        color: Colors.grey[500],
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                      right: 131,
+                                                    ),
+                                                    child: Container(
+                                                      width: 130,
+                                                      height: 25,
+                                                      decoration: const BoxDecoration(
+                                                        borderRadius: BorderRadius.only(
+                                                          topRight: Radius.circular(
+                                                            25.0,
+                                                          ),
+                                                          bottomLeft: Radius.circular(
+                                                            25.0,
+                                                          ),
+                                                        ),
+                                                        color: Color(0xffffbf00),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                         'Cost Per hour: ${cars[index].costPerHour}',
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                right: 25,
+                                top: 5,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *0.3,
+                                    height:MediaQuery.of(context).size.height *0.18,
+                                    child: Image(
+                                      image: NetworkImage(
+                                        cars[index].imagePath.first,
+
+                                      ),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          valueListenable: _cars,
+        ),
+      ),
+    );
+  }
+
+  Widget CarInfo(Car car) {
+    return Container(
+      clipBehavior: Clip.none,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height ,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.width ,
+            width: MediaQuery.of(context).size.width  ,
+            child: Positioned(
+              left:0,
+              top: -90,
+              width: 400,
+              child: Container(
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    offset: const Offset(0, 25),
+                    spreadRadius: 0.5,
+                    blurRadius: 160,
+                  ),
+                ]),
+                child: Image(
+                  image: NetworkImage(
+                    car.imagePath.first,
+                  ),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 60,
+            left: 5,
+            right: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    car.name,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    car.capacity.toString(),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white60),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 31,
+                                width: 31,
+                                child: FloatingActionButton(
+                                  backgroundColor: Colors.white,
+                                  onPressed: () {},
+                                  child: Icon(
+                                    Icons.local_gas_station_rounded,
+                                    color: Colors.lightBlueAccent,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text(
+                                "${car.mpg} -MPG",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: FloatingActionButton.small(
+                                  backgroundColor: Colors.white,
+                                  onPressed: () {},
+                                  child: Icon(
+                                    Icons.people_rounded,
+                                    color: Colors.lightBlueAccent,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "${car.capacity} People",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: FloatingActionButton(
+                                  backgroundColor: Colors.white,
+                                  onPressed: () {},
+                                  child: Icon(
+                                    FontAwesomeIcons.calendarDay,
+                                    color: Colors.lightBlueAccent,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Daily",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    car.description,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  MaterialButton(
+                    onPressed: () {},
+                    child: Container(
+                      height: 60,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.amber.withOpacity(0.2),
+                              spreadRadius: 0.1,
+                              blurRadius: 160,
+                            )
+                          ],
+                          color: Colors.amberAccent,
+                          borderRadius: BorderRadius.circular(25)),
+                      child: Center(
+                          child: Text(
+                        "Book Now !",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 26),
+                      )),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
 }
 
-
 class Images {
   String image;
   int index;
-  Images({required this.image, required this.index,});
+  String title;
+  String price;
+
+  Images(
+      {required this.image,
+      required this.index,
+      required this.title,
+      required this.price});
 }

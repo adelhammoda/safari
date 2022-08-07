@@ -13,7 +13,8 @@ class Coins extends StatelessWidget {
           child: Align(
             alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
             child: Text(
-              S.of(context).pageCoin,
+              LocalizationCubit.get(context).localization ? 'مبدل العملات' : 'Coins',
+              // S.of(context).pageCoin,
             ),
           ),
         ),

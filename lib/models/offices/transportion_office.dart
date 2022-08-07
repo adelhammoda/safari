@@ -1,13 +1,13 @@
 import 'package:safari/models/offices/office.dart';
 
-class TransportionOffice extends Office {
+class TransportationOffice extends Office {
   String id;
+  List<String> carsId;
 
-  List<String> cars_id;
-
-  TransportionOffice(
+  TransportationOffice(
       {required this.id,
-      required this.cars_id,
+      required this.carsId,
+        required super.loves,
       required super.country,
       required super.stars,
       required super.phone,
@@ -16,19 +16,22 @@ class TransportionOffice extends Office {
       required super.address,
       required super.account,
       required super.name,
+        required super.comments,
       required super.area,
       required super.city});
 
 
-  factory TransportionOffice.fromJson(Map json){
-    return TransportionOffice(id: json['id'],
-        cars_id: json['cars_id'],
+  factory TransportationOffice.fromJson(Map json){
+    return TransportationOffice(id: json['id'],
+        comments: Office.convertListOfString(json['comments']??[]),
+        loves: Office.convertListOfString(json['loves']??[]),
+        carsId: Office.convertListOfString(json['cars_id']),
         country: OfficeBase.fromLocation(json['location'], 0),
-        stars: json['stars'] ?? 0,
-        phone: json['phone'],
-        imagesPath: json['image_path'],
+        stars: Office.convertList(json['stars'] ?? []),
+        phone:Office.convertHashToMap(json['phone']??{}),
+        imagesPath: Office.convertListOfString(json['images']??[]),
         description: json['description'],
-        address: json['address'],
+        address: Office.convertHashToMap(json['address']??{}),
         account: json['account'],
         name: json['name'],
         area: OfficeBase.fromLocation(json['location'], 2),
@@ -39,7 +42,12 @@ class TransportionOffice extends Office {
   Map<String, dynamic> joJson() {
     return {
       "name":name,
-      "cars_id":cars_id,
+      "cars_id":carsId,
+      "address":{
+        'country':country,
+        'city':city,
+        'area':area
+      },
       "location":"$country/$city/$area",
       "stars":stars,
       "phone":phone,

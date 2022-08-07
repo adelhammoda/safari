@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safari/places/datalayer/places_model.dart';
+import 'package:safari/places/datalayer/places_service.dart';
 // import 'package:safari/StartScreen/Business%20Logic(bloc)/StartScreen_States.dart';
 // import 'package:safari/StartScreen/Data%20Layer/DataModel.dart';
 // import 'package:safari/StartScreen/Data%20Layer/StartScreen(Api).dart';
@@ -22,6 +24,10 @@ class TripCubit extends Cubit<TripStates> {
   StartApi ss = StartApi();
 
   List<DataModel> imagelist = [];
+
+  PlacesApi placesapi = PlacesApi();
+
+  List<AddPlacesModel> citylist = [];
 
   int selectedindex = 0;
 
@@ -62,9 +68,31 @@ class TripCubit extends Cubit<TripStates> {
 
     emit(ImagesLoaded(this.imagelist));
 
-
-
     print(imagelist);
 
   }
+
+  
+  GetPlacesRequest(String city,int index) async {
+
+    this.selectedindex = index;
+
+    emit(PlacesLoadingS());
+
+    final PlacesC = await  ss.GetPlaces(city);
+
+    print("mt");
+
+    this.imagelist = PlacesC.map((e) => DataModel.fomLandmarks(e)).toList();
+
+    emit(PlacesLoadedS(this.imagelist));
+
+    print(imagelist);
+   
+  }
+
+  
+
+
+
 }

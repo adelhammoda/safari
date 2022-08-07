@@ -54,7 +54,7 @@ class _ExpandedWidgetState extends State<ExpandedWidget> {
                   Align(
                     alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                     child: Text(
-                      flag ? S.of(context).pageShowMore : S.of(context).pageShowLess,
+                      flag ? LocalizationCubit.get(context).localization ? ' رؤية المزيد ' : 'Show more' : LocalizationCubit.get(context).localization ? ' رؤية اقل' : 'Show less',
                       style: TextStyle(color: Colors.orange,fontSize:16 ),),
                   ),
                   Icon(flag?Icons.keyboard_arrow_down:Icons.keyboard_arrow_up,color: Colors.amber,),

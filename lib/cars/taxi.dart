@@ -3,6 +3,7 @@ import 'package:safari/animation/animatedcar.dart';
 import 'package:safari/animation/animateroute.dart';
 import 'package:safari/cars/listofcars.dart';
 import 'package:safari/generated/l10n.dart';
+import 'package:safari/localization/localization_bloc.dart';
 class Taxi extends StatefulWidget {
   const Taxi({Key? key}) : super(key: key);
 
@@ -48,7 +49,8 @@ class _TaxiState extends State<Taxi> {
                 ),
                 child: MaterialButton(
                   child: Text(
-                    S.of(context).pageGetStarted,
+                    // S.of(context).pageGetStarted,
+                    LocalizationCubit.get(context).localization ? 'لنبدأ  ' : 'GET STARTED',
                     //style: Theme.of(context).textTheme.headline6,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

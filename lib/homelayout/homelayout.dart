@@ -39,7 +39,7 @@ class HomeLayout extends StatelessWidget {
                         // buttonBackgroundColor: LightColors.cc,
                         // color: LightColors.bb,
                           color: Theme.of(context).bottomAppBarColor,
-                          buttonBackgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                          buttonBackgroundColor: Colors.transparent,//Theme.of(context).appBarTheme.backgroundColor,
                           backgroundColor: Colors.transparent,
                           height: 48,
                           animationCurve: Curves.easeInOut,

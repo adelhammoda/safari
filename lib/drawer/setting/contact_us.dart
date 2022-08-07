@@ -19,7 +19,8 @@ class _ContactUsState extends State<ContactUs> {
         title: Align(
           alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
           child: Text(
-            S.of(context).pageContactus,
+            LocalizationCubit.get(context).localization ? ' تواصل معنا ' : 'contact us',
+            // S.of(context).pageContactus,
           ),
         ),
         leading: DrawerWidget(),
@@ -41,7 +42,8 @@ class _ContactUsState extends State<ContactUs> {
                     Padding(
                       padding: const EdgeInsets.only(right: 20,),
                       child: Text(
-                        S.of(context).pageCallus,
+                        LocalizationCubit.get(context).localization ? ' اتصل بنا' : 'call us',
+                        // S.of(context).pageCallus,
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -49,7 +51,8 @@ class _ContactUsState extends State<ContactUs> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20,),
                       child: Text(
-                        S.of(context).pageWeAre,
+                        LocalizationCubit.get(context).localization ? ' نحن هنا' : 'we are here  ',
+                        // S.of(context).pageWeAre,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safari/places/datalayer/places_model.dart';
 // import 'package:safari/StartScreen/Data%20Layer/DataModel.dart';
 // import 'package:safari/mytrip/MyTrip.dart';
 import 'package:safari/startscreen/data_layer/datamodel.dart';
@@ -9,6 +10,15 @@ abstract class TripStates{}
 class initialTripState extends TripStates{}
 
 class ImagesLoading extends TripStates{}
+
+class PlacesLoadingS extends TripStates {}
+
+class PlacesLoadedS extends TripStates {
+  final List<DataModel> placelist;
+
+  PlacesLoadedS(this.placelist);
+}
+
 
 class ImagesLoaded extends TripStates{
   final List<DataModel> Imagelist;

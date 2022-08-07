@@ -1,35 +1,29 @@
 class User {
-
-  String id;
-  String firstName, lastName;
-  String email, userType, phoneNumber;
-
+  String  name, phoneNumber, email, photoUrl;
 
   User({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.userType,
-    required this.email,
+    required this.name,
     required this.phoneNumber,
+    required this.email,
+    required this.photoUrl,
   });
 
-  factory User.fromJson(Map json){
-    return User(id: json['id'],
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        userType: json['user_type'],
+  factory User.fromJson(Map json) {
+    return User(
+        name: json['name'],
         email: json['email'],
-        phoneNumber: json['phone_number']);
+        phoneNumber: json['phone_number'],
+        photoUrl: json['photo_url']);
   }
 
-  Map toJson(){
+  Map<String ,String > toJson(){
     return {
-      'first_name':firstName,
-      'last_name':lastName,
-      'email':email,
+      'name':name,
       'phone_number':phoneNumber,
-      'user_type':userType,
+      'photo_url':photoUrl,
     };
   }
+
+
+  String get id => email.split('.').first;
 }

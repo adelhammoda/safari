@@ -7,6 +7,8 @@ class Restaurant extends Office {
   TimeOfDay timeFrom;
   TimeOfDay timeTo;
   List<String> typeOfFood;
+  String foodType;
+
 
   Restaurant(
       {required this.id,
@@ -14,6 +16,7 @@ class Restaurant extends Office {
       required this.timeTo,
       required this.typeOfFood,
       required super.country,
+        required super.comments,
       required super.stars,
       required super.phone,
       required super.imagesPath,
@@ -22,23 +25,28 @@ class Restaurant extends Office {
       required super.account,
       required super.name,
       required super.area,
-      required super.city});
+      required super.city,
+      required super.loves,
+      required this.foodType});
 
   factory Restaurant.fromJson(Map json){
     return Restaurant(id: json['id'],
-        timeFrom: TimeOfDay.fromDateTime(json['time_from']),
-        timeTo: TimeOfDay.fromDateTime(json['time_to']),
-        typeOfFood:json['type_of_food'] ,
+        loves: Office.convertListOfString(json['loves']??[]),
+        comments: Office.convertListOfString(json['comments']??[]),
+        timeFrom: TimeOfDay.fromDateTime(json['time_from']??DateTime(2001,1,1,8,0)),
+        timeTo: TimeOfDay.fromDateTime(json['time_to']??DateTime(2001,1,1,16,0)),
+        typeOfFood:Office.convertListOfString(json['type_of_food']??[]) ,
         country: OfficeBase.fromLocation(json['location'], 0),
-        stars: json['stars'] ?? 0,
-        phone: json['phone'],
-        imagesPath: json['image_path'],
-        description: json['description'],
-        address: json['address'],
-        account: json['account'],
+        stars: Office.convertList(json['stars']?? [0,0,0,0,0] ),
+        phone: Office.convertHashToMap(json['phone']??{}),
+        imagesPath: Office.convertListOfString(json['images']??[]),
+        description: json['description']??'',
+        address: Office.convertHashToMap(json['address']??{}),
+        account: json['account']??'',
         name: json['name'],
         area: OfficeBase.fromLocation(json['location'], 2),
-        city: OfficeBase.fromLocation(json['location'], 1));
+        city: OfficeBase.fromLocation(json['location'], 1),
+        foodType: json['food_type']??'');
   }
 
 
@@ -53,7 +61,7 @@ class Restaurant extends Office {
       "images":imagesPath,
       "description":description,
       "account":account,
-
+      "food_type":foodType
     };
   }
 }

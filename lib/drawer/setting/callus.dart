@@ -44,7 +44,8 @@ class _NumbersState extends State<Numbers> {
             Align(
               alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
               child: Text(
-                'call us to f,flffgk',
+                LocalizationCubit.get(context).localization ? ' تواصل معنا ' : 'call us to f,flffgk',
+                // 'call us to f,flffgk',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
@@ -82,7 +83,8 @@ class _NumbersState extends State<Numbers> {
                           Padding(
                             padding: const EdgeInsets.only(right: 50),
                             child: Text(
-                              S.of(context).pageInitial,
+                              LocalizationCubit.get(context).localization ? ' محلي' : 'Initial',
+                              // S.of(context).pageInitial,
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ),

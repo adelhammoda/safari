@@ -39,7 +39,8 @@ class _AboutUsState extends State<AboutUs> {
                 Align(
                   alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                   child: Text(
-                    S.of(context).pageAboutau,
+                     LocalizationCubit.get(context).localization ? ' حول التطبيق' : 'about au',
+                    // S.of(context).pageAboutau,
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
@@ -47,7 +48,8 @@ class _AboutUsState extends State<AboutUs> {
                 Align(
                   alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                   child: Text(
-                    'sdfkjdkjfffhff',
+                    LocalizationCubit.get(context).localization ? ' حول' : 'sdfkjdkjfffhff',
+                    // 'sdfkjdkjfffhff',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),

@@ -6,13 +6,13 @@ import 'package:safari/drawer/setting/account.dart';
 import 'package:safari/drawer/setting/contact_us.dart';
 import 'package:safari/drawer/setting/setting.dart';
 import 'package:safari/generated/l10n.dart';
+import 'package:safari/localization/localization_bloc.dart';
 import 'package:safari/login/presentation/hello.dart';
 import 'package:safari/my_profile/my_profile.dart';
 import 'package:safari/register/presentation/Register_Screen.dart';
 import 'package:safari/theme/colors/color.dart';
 import 'package:safari/homelayout/homelayout.dart';
 import 'package:safari/main_screen/main_screen.dart';
-
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,29 +27,28 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
-      menuScreen: DrawerScreen(setIndex: (index) {
-        setState(() {
-          currentIndex = index;
-
-
-        });
-      },),
+      menuScreen: DrawerScreen(
+        setIndex: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+      ),
       mainScreen: currentScreen(),
       borderRadius: 30,
       //showShadow: true,
 
       angle: 0.0,
-      slideWidth: (MediaQuery.of(context).size.height)-570,
+      slideWidth: (MediaQuery.of(context).size.width*0.5) ,
       openCurve: Curves.fastOutSlowIn,
       closeCurve: Curves.bounceIn,
       menuBackgroundColor: Theme.of(context).canvasColor,
-
     );
   }
 
   Widget currentScreen() {
     // return Main();
-    switch(currentIndex) {
+    switch (currentIndex) {
       case 0:
         return HomeLayout();
       case 1:
@@ -66,7 +65,6 @@ class _HomeState extends State<Home> {
         return HomeScreen();
     }
   }
-
 }
 
 class HomeScreen extends StatefulWidget {
@@ -83,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -97,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class DrawerScreen extends StatefulWidget {
   final ValueSetter setIndex;
+
   const DrawerScreen({Key? key, required this.setIndex}) : super(key: key);
 
   @override
@@ -112,53 +110,86 @@ class _DrawerScreenState extends State<DrawerScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DrawerHeader(child:
-          Container(
-            child: Column(
-
-              children: [
-                CircleAvatar(child: Image.asset('images/malaysia1.jpg',),
-                  maxRadius: 40,
-                ),
-                MaterialButton(
-                  onPressed: (){
-                    Navigator.of(context).push(Slide8(Page: MyProfile()));
-                  },
-                  child: Text(
-                    'flutter',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ),
-              ],),
-          )),
-          drawerList(Icons.home_outlined, S.of(context).pageHome, 0),
-          Divider(),
-
-          drawerList(
-              Icons.perm_identity, S.of(context).pageAccount, 1),
-
-          Divider(),
-          drawerList(Icons.settings, S.of(context).pageSetting, 2),
-          Divider(),
-
-          drawerList(Icons.people_outline, S.of(context).pageAboutau, 3),
-          Divider(),
-
-          drawerList(Icons.call, S.of(context).pageContactus, 4),
-          Divider(),
-
-
-
-
-          Spacer(),
-          Padding(padding: const EdgeInsets.all(8),child: InkWell(child:Row(
+          DrawerHeader(
+              child: Column(
             children: [
-              Icon(Icons.exit_to_app,),
-              SizedBox(width: 5,),
-              Text(S.of(context).pageLogout,style: Theme.of(context).textTheme.headline5,)
+              const CircleAvatar(
+                maxRadius: 40,
+                backgroundImage:AssetImage(
+                    'images/malaysia1.jpg',
+                ),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).push(Slide8(Page: MyProfile()));
+                },
+                child: Text(
+                  'flutter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
             ],
-          )),),
-          SizedBox(height: 30,)
+          )),
+          drawerList(
+              Icons.home_outlined,
+              LocalizationCubit.get(context).localization
+                  ? ' الرئيسية'
+                  : 'home',
+              0),
+          Divider(),
+          drawerList(
+              Icons.perm_identity,
+              LocalizationCubit.get(context).localization
+                  ? ' الحساب'
+                  : 'account',
+              1),
+          Divider(),
+          drawerList(
+              Icons.settings,
+              LocalizationCubit.get(context).localization
+                  ? ' الاعدادات'
+                  : 'setting',
+              2),
+          Divider(),
+          drawerList(
+              Icons.people_outline,
+              LocalizationCubit.get(context).localization
+                  ? ' حول التطبيق'
+                  : 'about us',
+              3),
+          Divider(),
+          drawerList(
+              Icons.call,
+              LocalizationCubit.get(context).localization
+                  ? ' تواصل معنا'
+                  : 'contact us',
+              4),
+          const Divider(),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: InkWell(
+                child: Row(
+              children: [
+                const Icon(
+                  Icons.exit_to_app,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  // S.of(context).pageLogout,
+                  LocalizationCubit.get(context).localization
+                      ? ' تسجيل خروج'
+                      : 'Logout',
+                  style: Theme.of(context).textTheme.headline5,
+                )
+              ],
+            )),
+          ),
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
@@ -166,25 +197,32 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   Widget drawerList(IconData icon, String text, int index) {
     return GestureDetector(
-
       onTap: () {
         widget.setIndex(index);
         ZoomDrawer.of(context)?.close();
-
       },
-
       child: Column(
         children: [
-
-          Padding(padding: const EdgeInsets.all(8),child: InkWell(child:Row(
-            children: [
-              Icon(icon,color:Colors.white ,size: 25,),
-              SizedBox(width: 10,),
-              Text(text,style: Theme.of(context).textTheme.button,),
-            ],
-          )),),
-
-
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: InkWell(
+                child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: MediaQuery.of(context).size.width * 0.05,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Text(
+                  text,
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ],
+            )),
+          ),
         ],
       ),
     );
@@ -200,8 +238,9 @@ class DrawerWidget extends StatelessWidget {
       onPressed: () {
         ZoomDrawer.of(context)!.toggle();
       },
-      icon: Icon(Icons.menu,),
+      icon: Icon(
+        Icons.menu,
+      ),
     );
   }
 }
-

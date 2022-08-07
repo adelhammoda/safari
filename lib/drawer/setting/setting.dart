@@ -29,7 +29,8 @@ class _SettingState extends State<Setting> {
                 title: Align(
                   alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                   child: Text(
-                    S.of(context).pageSetting,
+                    LocalizationCubit.get(context).localization ? ' الاعدادت' : 'setting',
+                    // S.of(context).pageSetting,
                   ),
                 ),
                 leading: DrawerWidget(),
@@ -41,7 +42,8 @@ class _SettingState extends State<Setting> {
                     Align(
                       alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                       child: Text(
-                        S.of(context).pageChangeMode,
+                        // S.of(context).pageChangeMode,
+                        LocalizationCubit.get(context).localization ? ' تغيير اللون' : 'change mode',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -50,11 +52,12 @@ class _SettingState extends State<Setting> {
                       alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                       child: Container(
                         alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
-                        width: 200,
+                        width: 230,
                         child: Row(
                           children: [
                             Text(
-                              S.of(context).pageLightMode,
+                              // S.of(context).pageLightMode,
+                              LocalizationCubit.get(context).localization ? ' ساطع' : 'Light',
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             SizedBox(width: 10,),
@@ -70,7 +73,8 @@ class _SettingState extends State<Setting> {
                             ),
                             SizedBox(width: 10,),
                             Text(
-                              S.of(context).pageDarkMode,
+                              // S.of(context).pageDarkMode,
+                                 LocalizationCubit.get(context).localization ? ' مظلم' : 'Dark',
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ],
@@ -81,7 +85,8 @@ class _SettingState extends State<Setting> {
                     Align(
                       alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
                       child: Text(
-                        S.of(context).pageChangeLan,
+                        // S.of(context).pageChangeLan,
+                        LocalizationCubit.get(context).localization ? ' تغير اللغة' : 'change Language',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -94,7 +99,8 @@ class _SettingState extends State<Setting> {
                         child: Row(
                           children: [
                             Text(
-                              S.of(context).pageHomeListTitle,
+                              // S.of(context).pageHomeListTitle,
+                              LocalizationCubit.get(context).localization ? ' الانكليزي' : 'ُEnglish',
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             SizedBox(width: 10,),
@@ -111,7 +117,8 @@ class _SettingState extends State<Setting> {
                             ),
                             SizedBox(width: 10,),
                             Text(
-                              S.of(context).pageArabicTitle,
+                              LocalizationCubit.get(context).localization ? ' عربي' : 'Arabic',
+                              // S.of(context).pageArabicTitle,
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ],
