@@ -8,6 +8,9 @@ import 'package:safari/startscreen/business_logic/startscreen_states.dart';
 import 'package:safari/startscreen/startscreen.dart';
 import 'package:safari/mytrip/mytripp/businesslogic/Cubit_MyTrip.dart';
 import 'package:safari/mytrip/mytripp/businesslogic/States_MyTrip.dart';
+import 'package:safari/theme/colors/color.dart';
+
+import '../theme/colors/color_bloc.dart';
 
 
 
@@ -41,7 +44,8 @@ class _MyTripState extends State<MyTrip> {
 
   @override
   Widget build(BuildContext context) {
-    double Height= (MediaQuery.of(context).size.height)+MediaQuery.of(context).size.height *0.2;
+    //double Height= (MediaQuery.of(context).size.height)+MediaQuery.of(context).size.height *0.2;
+    double Height = (MediaQuery.of(context).size.height) + X;
     return BlocProvider(
       create: (BuildContext context)=>TripCubit(initialTripState()),
       child: Scaffold(
@@ -50,24 +54,29 @@ class _MyTripState extends State<MyTrip> {
             SliverToBoxAdapter(
               child: Container(
                 height: Height,
-                color:Colors.lightBlueAccent,
-                //Color.fromRGBO(104, 111, 129,1),
+                color:BlocProvider.of<ColorCubit>(context).isDark?
+                Color.fromRGBO(104, 111, 129,1):Colors.lightBlueAccent,
                 child: Stack(
                   children: [
                     Positioned(top:0,left: 0,right: 0,
-                        child: Image.asset("images/Trip Planning 1.gif")),
-                    Positioned(top: 0,left:110,right:100,child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        LocalizationCubit.get(context).localization ? ' نظم رحلتك' : 'Plan Your Journey',
-                        // "Plan Your Journey",
-                        style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
+                        child: BlocProvider.of<ColorCubit>(context).isDark?Image.asset("images/Trip Planning 2.gif"):Image.asset("images/Trip Planning 1.gif")),
+                    Positioned(top:10,child:SizedBox(
+                      width:MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            LocalizationCubit.get(context).localization ? 'نظم رحلتك' : 'Plan Your Journey',
+                            // "Plan Your Journey",
+                            style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
+                        ],
+                      ),
                     )),
                     Positioned(top:250,left:0,right: 0,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Colors.white),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]:Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20,left: 20,right: 20,bottom: 50),
                             child: Form(
@@ -77,24 +86,26 @@ class _MyTripState extends State<MyTrip> {
                                   children:[
                                     Column(
                                       children: [
-                                        Icon(Icons.flight_takeoff,color:Colors.grey,),
+                                        Icon(Icons.flight_takeoff,color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey,),
                                         Padding(
                                           padding: const EdgeInsets.only(top:8.0),
                                           child: Text(
                                             // "From",
                                             LocalizationCubit.get(context).localization ? 'من' : 'From',
-                                            textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),
+                                            textAlign: TextAlign.center, style: TextStyle(fontSize: 12,color:  BlocProvider.of<ColorCubit>(context).isDark?Colors.white: Colors.grey),),
                                         )
                                       ],
                                     ),
                                     SizedBox(width: 20),
                                     Expanded(
                                       child: DropdownButtonFormField2<Country>(
+                                        isExpanded: true,
+                                        isDense:false,
                                         decoration: InputDecoration.collapsed(
                                           hintText: LocalizationCubit.get(context).localization ? 'اختر المنطقة' : 'Pick A City',//"Pick A City",
                                           hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                                         iconSize: 0,
-                                        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
+                                        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]:Colors.white),
                                         value: Choice,
                                         onChanged: (value){
                                           setState(() {
@@ -111,7 +122,7 @@ class _MyTripState extends State<MyTrip> {
                                     ),],
                                 ), //The "From" DropDownButton
                                 Row(children: [
-                                  Expanded(flex:10,child: Divider(color: Colors.grey,height: 5)),
+                                  Expanded(flex:10,child: Divider(color:BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey,height: 5)),
                                   Container(height: 45,width: 45,
                                       child: FloatingActionButton(onPressed: (){setState(() {
                                         Helper=Choice;
@@ -128,24 +139,26 @@ class _MyTripState extends State<MyTrip> {
                                   children:[
                                     Column(
                                       children: [
-                                        Icon(Icons.flight_land_outlined, color: Colors.grey),
+                                        Icon(Icons.flight_land_outlined, color:BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey),
                                         Padding(
                                           padding: const EdgeInsets.only(top:8.0),
                                           child: Text(
                                             // "To",
                                              LocalizationCubit.get(context).localization ? 'الى ' : 'To',
-                                            textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),
+                                            textAlign: TextAlign.center, style: TextStyle(fontSize: 12,color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey),),
                                         )
                                       ],
                                     ),
                                     SizedBox(width:20),
                                     Expanded(
                                       child: DropdownButtonFormField2<Country>(
+                                        isExpanded: true,
+                                        isDense: false,
                                         decoration: InputDecoration.collapsed(
                                           hintText: LocalizationCubit.get(context).localization ? 'اختر المنطقة' : 'Pick A City',//"Pick A City",
                                           hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                                         iconSize: 5,
-                                        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
+                                        dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]: Colors.white),
                                         value: Choice2,
                                         onChanged: (value){
                                           setState(() {
@@ -165,20 +178,20 @@ class _MyTripState extends State<MyTrip> {
                                 ),// The "To" DropDownButton
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 20),
-                                  child: Divider(color: Colors.grey,height: 5),
+                                  child: Divider(color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey,height: 5),
                                 ), //simple divider
                                 InkWell(
                                     child: Container(height: 60,
                                       child: Row(children: [
-                                        Icon(Icons.date_range,color: Colors.grey),
+                                        Icon(Icons.date_range,color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey),
                                         SizedBox(width: 40),
                                         Column(children: [
                                           Text(
                                             LocalizationCubit.get(context).localization ? 'وقت المغادرة' : 'Leaving Date',
                                             // "Leaving Date",
                                             style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black54),),
-                                          SizedBox(height: 20,),
-                                          Text(dateTimeRange.start.toString().split(' ')[0],style: TextStyle(fontWeight:FontWeight.w400,color: Chosen?Colors.lightBlue:Colors.black45),)
+                                          Spacer(),
+                                          Text(dateTimeRange.start.toString().split(' ')[0],style: TextStyle(fontWeight:FontWeight.w400,color: Chosen?BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.lightBlue:Colors.black45),)
                                         ],),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -189,8 +202,8 @@ class _MyTripState extends State<MyTrip> {
                                             // "Return Date",
                                             LocalizationCubit.get(context).localization ? 'وقت الوصول' : 'Return Date',
                                             style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black54),),
-                                          SizedBox(height: 20,),
-                                          Text(dateTimeRange.end.toString().split(' ')[0],style: TextStyle(fontWeight: FontWeight.w400,color:Chosen? Colors.lightBlue:Colors.black45))
+                                          Spacer(),
+                                          Text(dateTimeRange.end.toString().split(' ')[0],style: TextStyle(fontWeight: FontWeight.w400,color:Chosen? BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.lightBlue:Colors.black45))
                                         ]),
 
                                       ],),
@@ -200,18 +213,18 @@ class _MyTripState extends State<MyTrip> {
                                 // the container is necessary for the vertical divider
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 20),
-                                  child: Divider(color: Colors.grey,height: 5),
+                                  child: Divider(color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey,height: 5),
                                 ), //simple divider
                                 Row(
                                   children: [
-                                    Icon(Icons.people,color: Colors.grey),
+                                    Icon(Icons.people,color:BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey),
                                     Expanded(child: Theme( data: ThemeData(dividerColor: Colors.transparent),
                                       child: ExpansionTile(onExpansionChanged: (value){
                                         setState(() {
                                           if(value==true)
-                                            X+=200;
+                                            X+=250;
                                           else
-                                            X-=200;
+                                            X-=250;
 
                                         });
                                       },textColor: Colors.green,iconColor: Colors.green,title: Text(
@@ -223,6 +236,7 @@ class _MyTripState extends State<MyTrip> {
                                             Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
                                                 children: [
                                                   Icon(Icons.man),
                                                   Text(
@@ -232,7 +246,7 @@ class _MyTripState extends State<MyTrip> {
                                                   Text(
                                                     LocalizationCubit.get(context).localization ? 'اكبر من 12 سنة' : 'older than 12 Year old',
                                                     // "(older than 12 Year old)"
-                                                     style: TextStyle(color: Colors.lightBlue,fontSize: 10 ),)
+                                                     style: TextStyle(color:BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.lightBlue,fontSize: 10 ),)
                                                 ],
                                               ),
                                             ),
@@ -261,8 +275,9 @@ class _MyTripState extends State<MyTrip> {
                                           children: [
 
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 8,left: 25.0,bottom: 8),
+                                              padding: const EdgeInsets.only(top: 8,bottom: 8),
                                               child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
                                                 children: [
                                                   Icon(Icons.boy),
                                                   Text(
@@ -272,7 +287,7 @@ class _MyTripState extends State<MyTrip> {
                                                   Text(
                                                   //"(2 - 12 year old)",
                                                    LocalizationCubit.get(context).localization ? '2-12 سنة' : '2-12 year old',
-                                                  style: TextStyle(color: Colors.lightBlue,fontSize: 10 ),)
+                                                  style: TextStyle(color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.lightBlue,fontSize: 10 ),)
                                                 ],
                                               ),
                                             ),
@@ -301,8 +316,9 @@ class _MyTripState extends State<MyTrip> {
                                           children: [
 
                                             Padding(
-                                              padding: const EdgeInsets.only(top:8.0,),
+                                              padding: const EdgeInsets.only(top:8.0),
                                               child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
                                                 children: [
                                                   Icon(Icons.child_friendly),
                                                   Text(
@@ -310,7 +326,7 @@ class _MyTripState extends State<MyTrip> {
                                                   Text(
                                                      LocalizationCubit.get(context).localization ? 'اصغر من سنتين' : 'younger than 2 year olda',
                                                     // "(younger than 2 Year olds)",
-                                                   style: TextStyle(color: Colors.lightBlue,fontSize: 10 ))
+                                                   style: TextStyle(color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.lightBlue,fontSize: 10 ))
                                                 ],
                                               ),
                                             ),
@@ -344,8 +360,8 @@ class _MyTripState extends State<MyTrip> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
-                                  child: Divider(color: Colors.grey,height: 5),
+                                  padding: const EdgeInsets.symmetric(vertical: 30),
+                                  child: Divider(color: BlocProvider.of<ColorCubit>(context).isDark?Colors.white:Colors.grey,height: 5),
                                 ),
 
                                 BlocConsumer<TripCubit,TripStates>(
@@ -378,7 +394,7 @@ class _MyTripState extends State<MyTrip> {
                                               color: Colors.amberAccent,
                                               borderRadius: BorderRadius.circular(25)),
                                           child: Center(child: Text(
-                                             LocalizationCubit.get(context).localization ? 'لنبدأ' : 'Let`s Go !',
+                                             LocalizationCubit.get(context).localization ? '! لنبدأ' : 'Let\'s Go !',
                                             // "Let's Go !",
                                             style: TextStyle(color: Colors.white,
                                                 fontWeight: FontWeight.w800,

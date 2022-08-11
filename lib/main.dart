@@ -165,6 +165,7 @@ class MyApp extends StatelessWidget {
                   //   const Locale('ar' , ''),
                   // ],
                   supportedLocales: S.delegate.supportedLocales,
+                  debugShowCheckedModeBanner: false,
                   home: SplashScreen(), //const MyHomePage(title: 'Flutter Demo Home Page'),
                 );
               },
