@@ -20,6 +20,7 @@ import 'package:safari/localization/localization_bloc.dart';
 import 'package:safari/theme/colors/color.dart';
 import 'package:safari/mytrip/MyTrip.dart';
 import 'package:safari/mytrip/mytripp/presentation/Widgets.dart';
+import 'package:safari/theme/colors/color_bloc.dart';
 
 
 
@@ -61,90 +62,93 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
           }
         }),
         builder: (context, state) {
-          return SafeArea(
-            child: Container(decoration: BoxDecoration(gradient:
-            LinearGradient(colors: [
-              Colors.lightBlueAccent,
-              Colors.lightBlueAccent,
-              Colors.lightBlue,
-              Colors.lightBlue,
-              Colors.blue,
-              Colors.lightBlue,
-              Colors.lightBlue,
-              Colors.lightBlueAccent,
-              Colors.lightBlueAccent
+          return Container(decoration: BlocProvider.of<ColorCubit>(context).isDark?BoxDecoration(color:Colors.blueGrey):
+          BoxDecoration(gradient:
+          LinearGradient(colors: [
+            Colors.lightBlueAccent,
+            Colors.lightBlueAccent,
+            Colors.lightBlue,
+            Colors.lightBlue,
+            Colors.blue,
+            Colors.lightBlue,
+            Colors.lightBlue,
+            Colors.lightBlueAccent,
+            Colors.lightBlueAccent
 
-            ] ,
-                begin: Alignment.topRight,end: Alignment.bottomLeft)),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 18.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Container(
-                            width:   MediaQuery.of(context).size.width,
-                            child:
-                                Text(
-                                  LocalizationCubit.get(context).localization ? 'تغيير العملة 💰' : 'Currency Converter💰',
+          ] ,
+              begin: Alignment.topRight,end: Alignment.bottomLeft)),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0, vertical: 18.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10,1,1,1),
+                        child: Container(
+                          width:   MediaQuery.of(context).size.width,
+                          child:
+                              Align(
+                                alignment: LocalizationCubit.get(context).localization ? Alignment.topRight : Alignment.topLeft,
+                                child: Text(
+                                  LocalizationCubit.get(context).localization ? '💰 محول العملات ' : 'Currency Converter💰',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 36,
+                                        fontSize: 34,
                                         fontWeight: FontWeight.bold)),
-                                
-                                
-                            
-                          ),
-                        ),
-                        Form(
-                          key: FormKey,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: AmountController,
-                                    decoration: InputDecoration(
-                                        labelText: LocalizationCubit.get(context).localization ? ' ادخل عدد العملات  ' : 'Input Amount To Convert',
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        labelStyle: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.lightBlueAccent)),
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.normal),
-                                    textAlign: TextAlign.center,
-                                    onFieldSubmitted: (value) {
-                                      print(value);
-                                    },
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return LocalizationCubit.get(context).localization ? 'يجب ادخال العدد' : 'The Amount Must Be Entered';
-                                      }
+                              ),
 
-                                      Amount = double.parse(value);
-                                      print(Amount.toString());
-                                      return null;
-                                    }),
-                                SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
+
+
+                        ),
+                      ),
+                      Form(
+                        key: FormKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: AmountController,
+                                  decoration: InputDecoration(
+                                      labelText: LocalizationCubit.get(context).localization ? ' ادخل عدد العملات  ' : 'Input Amount To Convert',
+                                      filled: true,
+                                      fillColor: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]:Colors.white,
+                                      labelStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.normal,
+                                          color:BlocProvider.of<ColorCubit>(context).isDark?Colors.white: Colors.lightBlueAccent)),
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.normal),
+                                  textAlign: TextAlign.center,
+                                  onFieldSubmitted: (value) {
+                                    print(value);
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return LocalizationCubit.get(context).localization ? 'يجب ادخال العدد' : 'The Amount Must Be Entered';
+                                    }
+
+                                    Amount = double.parse(value);
+                                    print(Amount.toString());
+                                    return null;
+                                  }),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Container(
                                       decoration: BoxDecoration(
                                           color:
-                                          Color.fromRGBO(255, 255, 255, 1),
+                                          BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]: Color.fromRGBO(255, 255, 255, 1),
                                           borderRadius:
                                           BorderRadius.circular(5)),
-                                      width: 150,
                                       height: 80,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
@@ -157,13 +161,14 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                             hintText: LocalizationCubit.get(context).localization ? 'من' : 'From',
                                             hintStyle: TextStyle(
                                               fontWeight: FontWeight.w400,
+                                               color: BlocProvider.of<ColorCubit>(context).isDark? Colors.white:Colors.grey
                                             ),
                                           ),
                                           iconSize: 0,
                                           dropdownDecoration: BoxDecoration(
                                               borderRadius:
                                               BorderRadius.circular(20),
-                                              color: Colors.white),
+                                              color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]: Colors.white),
                                           value: Choice,
                                           onChanged: (value) {
                                             setState(() {
@@ -185,34 +190,36 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                         ),
                                       ),
                                     ),
+                                  ),
 
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          height: 45,
-                                          width: 45,
-                                          child: FloatingActionButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                Helper = Choice;
-                                                Choice = Choice2;
-                                                Choice2 = Helper;
-                                              });
-                                            },
-                                            backgroundColor: Colors.amber,
-                                            child: Icon(
-                                              Icons.swap_horiz,
-                                              color: Colors.white,
-                                            ),
-                                            foregroundColor: Colors.black45,
-                                          )),
-                                    ), // divider with swap values
-                                    Container(
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                        height: 45,
+                                        width: 45,
+                                        child: FloatingActionButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              Helper = Choice;
+                                              Choice = Choice2;
+                                              Choice2 = Helper;
+                                            });
+                                          },
+                                          backgroundColor: Colors.amber,
+                                          child: Icon(
+                                            Icons.swap_horiz,
+                                            color: Colors.white,
+                                          ),
+                                          foregroundColor: Colors.black45,
+                                        )),
+                                  ), // divider with swap values
+                                  Expanded(
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]: Colors.white,
                                           borderRadius:
                                           BorderRadius.circular(5)),
-                                      width: 130,
+
                                       height: 80,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
@@ -224,12 +231,15 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                           decoration: InputDecoration.collapsed(
                                               hintText:  LocalizationCubit.get(context).localization ? 'الى' : 'To',
                                               hintStyle: TextStyle(
-                                                  fontWeight: FontWeight.w400)),
+                                                  fontWeight: FontWeight.w400,
+                                              color: BlocProvider.of<ColorCubit>(context).isDark? Colors.white:Colors.grey),
+                                          ),
                                           iconSize: 5,
                                           dropdownDecoration: BoxDecoration(
+
                                               borderRadius:
                                               BorderRadius.circular(20),
-                                              color: Colors.white),
+                                              color: BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]: Colors.white),
                                           value: Choice2,
                                           onChanged: (value) {
                                             setState(() {
@@ -250,70 +260,70 @@ class _CurrencyExchangeState extends State<CurrencyExchange> {
                                           },
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Container(
-                                  width: double.infinity,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 15),
-                                      child: Text(LocalizationCubit.get(context).localization ? 'النتيجة' : 'Result',
-                                          style: TextStyle(
-                                              color: Colors.lightBlueAccent,
-                                              fontSize: 18,fontWeight: FontWeight.w600)),
                                     ),
-                                    state is RateLoaded
-                                        ? Text((state.Rate * Amount).toString(),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                width: double.infinity,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                    color:BlocProvider.of<ColorCubit>(context).isDark? Colors.blueGrey[300]:Colors.white,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Column(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15, bottom: 10),
+                                    child: Text(LocalizationCubit.get(context).localization ? 'النتيجة' : 'Result',
                                         style: TextStyle(
-                                            color: LightColors.bb,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w800))
-                                        :  state is WaitingResponse? Center(child: CircularProgressIndicator.adaptive()):
-                                    Text(LocalizationCubit.get(context).localization ? 'النتيجة هنا' : 'Result Will Be Shown Here',
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal))
-                                  ]),
-                                ),
-                                SizedBox(height: 20),
-                                InkWell(
-                                  onTap: () {
-                                    if (FormKey.currentState!.validate())
-                                      BlocProvider.of<CurrencyCubit>(context).getRate(Choice!.Name, Choice2!.Name);
-
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        color: Colors.amberAccent,
-                                        borderRadius:
-                                        BorderRadius.circular(5)),
-                                    child: Center(
-                                        child: Text(
-                                          LocalizationCubit.get(context).localization ? ' تحويل' : 'Convert',
-                                          // "Convert",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 26),
-                                        )),
+                                            color: BlocProvider.of<ColorCubit>(context).isDark? Colors.white:Colors.lightBlueAccent,
+                                            fontSize: 18,fontWeight: FontWeight.w600)),
                                   ),
-                                )
-                              ],
-                            ),
+                                  state is RateLoaded
+                                      ? Text((state.Rate * Amount).toStringAsFixed(2),
+                                      style: TextStyle(
+                                          color: LightColors.bb,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w800))
+                                      :  state is WaitingResponse? Center(child: CircularProgressIndicator.adaptive()):
+                                  Text(LocalizationCubit.get(context).localization ? 'ستظهر النتيجة هنا' : 'Result Will Be Shown Here',
+                                      style: TextStyle(
+                                          color:BlocProvider.of<ColorCubit>(context).isDark? Colors.white:Colors.grey,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal))
+                                ]),
+                              ),
+                              SizedBox(height: 20),
+                              InkWell(
+                                onTap: () {
+                                  if (FormKey.currentState!.validate())
+                                    BlocProvider.of<CurrencyCubit>(context).getRate(Choice!.Name, Choice2!.Name);
+
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      color: Colors.amberAccent,
+                                      borderRadius:
+                                      BorderRadius.circular(5)),
+                                  child: Center(
+                                      child: Text(
+                                        LocalizationCubit.get(context).localization ? ' تحويل' : 'Convert',
+                                        // "Convert",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 26),
+                                      )),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

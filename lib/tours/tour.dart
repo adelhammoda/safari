@@ -623,6 +623,7 @@ class _ToursState extends State<Tours> {
                     try {
                       if(Authentication.user == null){
                         Navigator.of(context).push(MaterialPageRoute(builder: (c)=>myLogin()));
+                        _loadingPayment.value = false;
                       }
                       debugPrint("loading...");
                       _loadingPayment.value = true;

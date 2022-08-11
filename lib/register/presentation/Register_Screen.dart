@@ -1,20 +1,24 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:safari/drawer/drawer.dart';
-import 'package:safari/generated/l10n.dart';
+import 'package:safari/localization/localization_bloc.dart';
 import 'package:safari/register/bloc/Cubit_Register.dart';
 import 'package:safari/register/bloc/States_Register.dart';
 import 'package:safari/register/datalayer/Register_Model.dart';
 import 'package:safari/register/datalayer/Regitser_Repository.dart';
 import 'package:safari/register/presentation/widget/DisplayPicture.dart';
 import 'package:safari/register/presentation/widget/Loading_State.dart';
-import 'package:safari/server/authintacation.dart' as auth;
-import 'package:safari/models/components/user.dart' as u;
-import 'package:safari/tours/tour.dart';
+// import 'package:untitled1newone/generated/l10n.dart';
+// import 'package:untitled1newone/register/bloc/Cubit_Register.dart';
+// import 'package:untitled1newone/register/bloc/States_Register.dart';
+// import 'package:untitled1newone/register/datalayer/Register_Model.dart';
+// import 'package:untitled1newone/register/datalayer/Regitser_Repository.dart';
+// import 'package:untitled1newone/register/presentation/widget/DisplayPicture.dart';
+// import 'package:untitled1newone/register/presentation/widget/Loading_State.dart';
+// import 'package:untitled1newone/localization/localization_bloc.dart';
+
 
 
 class Register extends StatefulWidget {
@@ -41,24 +45,25 @@ class _RegisterState extends State<Register> {
 
   late RegisterRepository registerRepository;
 
-  File? UserImage;
+  late File UserImage;
 
-  final Picker = ImagePicker();
+  final Picker =ImagePicker();
 
   RegisterModel registerModel = RegisterModel();
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
 
-  Future getImage(ImageSource src) async {
+  Future getImage(ImageSource src) async{
     final PickedFile = await Picker.pickImage(source: src);
     setState(() {
-      if (PickedFile != null) {
+      if (PickedFile!=null)
+      {
         UserImage = File(PickedFile.path);
-        BlocProvider.of<RegisterCubit>(context).UpdateImage(UserImage!);
-        this.registerModel.Image = UserImage!;
+        BlocProvider.of<RegisterCubit>(context).UpdateImage(UserImage);
+        this.registerModel.Image=UserImage;
         print("image loaded");
       }
       else
         print("Could not get photo");
+
     });
   }
 
@@ -76,7 +81,7 @@ class _RegisterState extends State<Register> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            onPressed: () {
+            onPressed: (){
               Navigator.pop(context);
             },
             icon: Icon(
@@ -87,384 +92,458 @@ class _RegisterState extends State<Register> {
         body: SafeArea(
           child: Container(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(5.0),
               child: Form(
                 key: formKey,
                 child: Center(
                   child: SingleChildScrollView(
                     child: Container(
-                      padding: const EdgeInsets.all(25),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
 
                         /// اللون للخلفية الببضاء مع شفافية 10%
-                        color: Colors.white.withOpacity(0.10),
+
 
                         /// تدوير الحواف
                         borderRadius: BorderRadius.all(Radius.circular(25)),
                       ),
 
-                      child: BlocBuilder<RegisterCubit, RegisterState>(
-                          builder: (context, state) {
-                            if (state is LoadingState)
-                              return LoadingWidget();
+                      child:  BlocBuilder<RegisterCubit,RegisterState>(builder: (context,state){
 
-                            if (state is SuccessState)
-                              return DisplayPicture(
-                                  DisplayPhoto: state.profileImage);
+                        if(state is LoadingState)
+                          return LoadingWidget();
 
-                            else {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    S
-                                        .of(context)
-                                        .pageRegister,
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .headline1,
-                                  ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  InkWell(child: ClipOval(
-                                      child: Container(width: 100, height: 100,
-                                        child: BlocBuilder<
-                                            RegisterCubit,
-                                            RegisterState>(
-                                            builder: (context, state) {
-                                              if (state is ImageLoaded)
-                                                return Image.file(
-                                                  state.ProfileImage,
-                                                  fit: BoxFit.fill,);
+                        if(state is SuccessState)
+                          return DisplayPicture(DisplayPhoto: state.profileImage);
 
-                                              return Image.asset(
-                                                  "images/plane.jpg",
-                                                  fit: BoxFit.fill);
-                                            }),
-                                      )), onTap: () {
-                                    showDialog(context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text("Choose Picture From"),
-                                            content: Container(height: 150,
-                                                color: Colors.white,
-                                                child:
-                                                Column(children: [
+                        else
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                LocalizationCubit.get(context).localization ? 'انشاء حساب' : 'Register',
+                                // S.of(context).pageRegister,
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              InkWell(
+                                child: Stack(
+                                  children: [
+                                    ClipOval(
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          child: BlocBuilder<RegisterCubit,
+                                              RegisterState>(
+                                              builder: (context, state) {
+                                                if (state is ImageLoaded)
+                                                  return Image.file(
+                                                    state.ProfileImage,
+                                                    fit: BoxFit.fill,
+                                                  );
+                                                else
+                                                  return Image.asset(
+                                                      "images/plane.jpg",
+                                                      fit: BoxFit.fill);
+                                              }),
+                                        )),
+                                    Positioned(
+                                        bottom: 0,
+                                        right: 0,
+                                        child: SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: FloatingActionButton(
+                                            onPressed: () {},
+                                            child: Icon(Icons.add,
+                                                color: Colors.white),
+                                            backgroundColor: Colors.orangeAccent,
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return new AlertDialog(
+                                          title: Text("Choose Picture From"),
+                                          content: Container(
+                                              height: 150,
+                                              color: Colors.white,
+                                              child: Column(
+                                                children: [
                                                   Container(
                                                     color: Colors.orange,
                                                     child: ListTile(
-                                                      leading: Icon(
-                                                          Icons.image),
+                                                      leading: Icon(Icons.image),
                                                       title: Text('Gallery'),
                                                       onTap: () {
-                                                        getImage(ImageSource
-                                                            .gallery);
+                                                        getImage(
+                                                            ImageSource.gallery);
                                                         Navigator.of(context)
                                                             .pop();
-                                                      },),),
-                                                  const SizedBox(height: 30,),
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30,
+                                                  ),
                                                   Container(
                                                     color: Colors.orange,
                                                     child: ListTile(
-                                                      leading: Icon(
-                                                          Icons.add_a_photo),
+                                                      leading:
+                                                      Icon(Icons.add_a_photo),
                                                       title: Text('Camera'),
                                                       onTap: () {
                                                         getImage(
                                                             ImageSource.camera);
                                                         Navigator.of(context)
                                                             .pop();
-                                                      },),),
-                                                ],)),);
-                                        });
-                                  },),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  TextFormField(
-                                    controller: namecontroler,
-                                    keyboardType: TextInputType.name,
-                                    onFieldSubmitted: (String value) {
-                                      print(value);
-                                    },
-                                    onChanged: (String value) {
-                                      print(value);
-                                    },
-                                    decoration: InputDecoration(
-                                      focusColor: Colors.purple,
-                                      labelText: S
-                                          .of(context)
-                                          .pageName,
-                                      prefixIcon:
-                                      Icon(Icons
-                                          .drive_file_rename_outline_rounded),
-                                      border: _outlineBorder(),
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                        );
+                                      });
+                                },
+                              ),
 
-                                      /// دالة الborder يلي بتخلي مدور بس استدعيا
-                                      /// في حال بدي الborder بغير لون بس  جواتا borderColor
-                                      /// الError لونو أحمر مثلا
-                                      enabledBorder: _outlineBorder(),
-                                      focusedBorder: _outlineBorder(
-                                        // borderColor: AppColors.darkBlue,
-                                      ),
-                                      disabledBorder: _outlineBorder(),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.grey[200],
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 10),
+              blurRadius: 50,
+              color: Color(0xffEEEEEE)
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: namecontroler,
+        keyboardType: TextInputType.name,
+
+        cursorColor: Color(0xffef9b0f),
+
+        onFieldSubmitted: (value){
+          print(value);
+        },
+
+        validator: (value){
+          if(value!.isEmpty||!value.contains('@')||!value.contains('.com')){
+            return  LocalizationCubit.get(context).localization ? 'ادخل ' : 'Fill the value';//S.of(context).pageFillValue;
+          }
+          return null;
+        },
+
+
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.drive_file_rename_outline_rounded,
+            color: Color(0xffef9b0f),
+          ),
+
+          hintText:  LocalizationCubit.get(context).localization ? 'الاسم ' : 'Name',//S.of(context).pageName,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+      ),
+    ),
+
+                             SizedBox(
+                                height: 10,
+                              ),
+                               Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.grey[200],
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 10),
+              blurRadius: 50,
+              color: Color(0xffEEEEEE)
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: phonecontroler,
+        keyboardType: TextInputType.phone,
+
+        cursorColor: Color(0xffef9b0f),
+
+        onFieldSubmitted: (value){
+          print(value);
+        },
+
+        validator: (value){
+          if(value!.isEmpty||!value.contains('@')||!value.contains('.com')){
+            return  LocalizationCubit.get(context).localization ? 'ادخل ' : 'Fill the value';//S.of(context).pageFillValue;
+          }
+          return null;
+        },
+
+
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.phone,
+            color: Color(0xffef9b0f),
+          ),
+
+          hintText:  LocalizationCubit.get(context).localization ? 'رقم تواصل ' : 'Phone',//S.of(context).pageYourPhone,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+      ),
+    ),
+
+                             SizedBox(
+                                height: 10,
+                              ),
+                                 Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.grey[200],
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 10),
+              blurRadius: 50,
+              color: Color(0xffEEEEEE)
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: emailcontroler,
+        keyboardType: TextInputType.emailAddress,
+
+        cursorColor: Color(0xffef9b0f),
+
+        onFieldSubmitted: (value){
+          print(value);
+        },
+
+        validator: (value){
+          if(value!.isEmpty||!value.contains('@')||!value.contains('.com')){
+            return  LocalizationCubit.get(context).localization ? 'ادخل ' : 'Fill the value';//S.of(context).pageFillValue;
+          }
+          return null;
+        },
+
+
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.email,
+            color: Color(0xffef9b0f),
+          ),
+
+          hintText:  LocalizationCubit.get(context).localization ? 'الايميل ' : 'Email',//S.of(context).pageEnterEmail,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+      ),
+    ),
+                          SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Color(0xffEEEEEE),
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 20),
+              blurRadius: 100,
+              color: Color(0xffEEEEEE)          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: passoredcontroler,
+        obscureText: isPassword,
+        keyboardType: TextInputType.visiblePassword,
+
+        cursorColor: Color(0xffef9b0f),
+        decoration: InputDecoration(
+          focusColor: Color(0xffef9b0f),
+          icon: Icon(
+            Icons.lock,
+            color: Color(0xffef9b0f),
+          ),
+          hintText:  LocalizationCubit.get(context).localization ? 'كلمة المرور ' : 'Password' ,//S.of(context).pageEnterPassword,
+ enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          suffixIcon: IconButton(
+            onPressed: (){
+              setState(() {
+                isPassword =  !isPassword;
+              });
+            },
+            icon: Icon(
+              isPassword ? Icons.visibility_off : Icons.visibility,
+              color: Color(0xffef9b0f),
+            ),
+          ),
+        ),
+        onFieldSubmitted: (value){
+          print(value);
+        },
+        validator: (value){
+          if(value!.isEmpty){
+            return  LocalizationCubit.get(context).localization ? 'كلمة المرور ادخل ' : 'password must not be empty';//S.of(context).pagePasswordAddress;
+
+          }
+          return null;
+        },
+      ),
+      // enabledBorder: InputBorder.none,
+        // focusedBorder: InputBorder.none,
+    ),
+
+                            SizedBox(
+                                height: 10,
+                              ),
+                                 Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 54,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Color(0xffEEEEEE),
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 20),
+              blurRadius: 100,
+              color: Color(0xffEEEEEE)          ),
+        ],
+      ),
+      child: TextFormField(
+        // controller: passoredcontroler,
+        obscureText: isPassword2,
+        keyboardType: TextInputType.visiblePassword,
+
+        cursorColor: Color(0xffef9b0f),
+        decoration: InputDecoration(
+          focusColor: Color(0xffef9b0f),
+          icon: Icon(
+            Icons.lock,
+            color: Color(0xffef9b0f),
+          ),
+          hintText:  LocalizationCubit.get(context).localization ? 'تأكيد كلمة المرور ' : 'Confirm Password',//S.of(context).pageConfirmpass,
+ enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          suffixIcon: IconButton(
+            onPressed: (){
+              setState(() {
+                isPassword2 =  !isPassword2;
+              });
+            },
+            icon: Icon(
+              isPassword2 ? Icons.visibility_off : Icons.visibility,
+              color: Color(0xffef9b0f),
+            ),
+          ),
+        ),
+        onFieldSubmitted: (value){
+          print(value);
+        },
+        validator: (value){
+          /// اذا فاضية بترجع رسالة عبي الداتا
+                                  if ((value ?? '').isEmpty) return LocalizationCubit.get(context).localization ? 'ادخل ' : 'Fill the value';//S.of(context).pageFillValue;
+
+                                  if (value == passoredcontroler.text) return null;
+                                  return LocalizationCubit.get(context).localization ? 'عدم التطابق' : 'Password and confirm password do not match';//"Password and confirm password do not match";
+        },
+      ),
+      // enabledBorder: InputBorder.none,
+        // focusedBorder: InputBorder.none,
+    ),
+
+                            SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: (MediaQuery.of(context).size.width),
+                                margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+
+                                padding: EdgeInsets.only(left: 20, right: 20),
+
+                                alignment: Alignment.center,
+
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: [
+                                 (new Color(0xffef9b0f)),
+                                      new Color(0xffffba00)
+                                  ],
+
+                                    begin: Alignment.centerLeft,
+
+                                    end: Alignment.centerRight
+
+                                ),borderRadius: BorderRadius.circular(50),
+
+                                  boxShadow: [
+
+                                    BoxShadow(
+
+                                        offset: Offset(0, 10),
+
+                                        blurRadius: 50,
+
+                                        color: Color(0xffEEEEEE)
+
                                     ),
 
-                                    /// تحت مشان ايمت نطلع الرسالة الحمرا
-                                    /// وشو الرسالة لبدنا نطلعا
-                                    validator: (value) {
-                                      /// اذا فاضية بترجع رسالة عبي الداتا
-                                      if ((value ?? '').isEmpty) return S
-                                          .of(context)
-                                          .pageFillValue;
-                                      return null;
-                                    },
+                                  ],
+
+                                ),
+
+                                child: MaterialButton(
+                                  onPressed: (){
+                                    if (formKey.currentState!.validate()) {
+
+                                      print("Button Clicked");
+                                      this.registerModel.Name=namecontroler.text;
+                                      this.registerModel.Phone= phonecontroler.text;
+                                      this.registerModel.Email=emailcontroler.text;
+                                      this.registerModel.Password=phonecontroler.text;
+                                      BlocProvider.of<RegisterCubit>(context).SendRequest(registerModel);
+
+                                    }
+                                  },
+                                  child: Text(
+                                    LocalizationCubit.get(context).localization ? 'انشاء حساب' : 'Register',
+                                    // S.of(context).pageRegister,
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.phone,
-                                    controller: phonecontroler,
-                                    decoration: InputDecoration(
-                                      labelText: S
-                                          .of(context)
-                                          .pageYourPhone,
-                                      prefixIcon: Icon(Icons.phone),
-                                      border: _outlineBorder(),
-                                      enabledBorder: _outlineBorder(),
-                                      focusedBorder: _outlineBorder(
-                                        // borderColor: AppColors.darkBlue,
-                                      ),
-                                      disabledBorder: _outlineBorder(),
-                                    ),
-                                    validator: (value) {
-                                      /// اذا فاضية بترجع رسالة عبي الداتا
-                                      if ((value ?? '').isEmpty) return S
-                                          .of(context)
-                                          .pageFillValue;
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: emailcontroler,
-                                    decoration: InputDecoration(
-                                      labelText: S
-                                          .of(context)
-                                          .pageEnterEmail,
-                                      prefixIcon: Icon(Icons.email),
-                                      border: _outlineBorder(),
-                                      enabledBorder: _outlineBorder(),
-                                      focusedBorder: _outlineBorder(
-                                        // borderColor: AppColors.darkBlue,
-                                      ),
-                                      disabledBorder: _outlineBorder(),
-                                    ),
-                                    validator: (value) {
-                                      /// اذا فاضية بترجع رسالة عبي الداتا
-                                      if ((value ?? '').isEmpty) return S
-                                          .of(context)
-                                          .pageFillValue;
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    controller: passoredcontroler,
-                                    obscureText: isPassword,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    decoration: InputDecoration(
-                                      labelText: S
-                                          .of(context)
-                                          .pageEnterPassword,
-                                      prefixIcon: Icon(Icons.lock),
-                                      suffixIcon: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isPassword = !isPassword;
-                                            });
-                                          },
-                                          icon: Icon(isPassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility)),
-                                      border: _outlineBorder(),
+                                ),
+                              ),
+                            ],
+                          );
 
-                                      /// دالة الborder يلي بتخلي مدور بس استدعيا
-                                      /// في حال بدك الborder بغير لون بس  جواتا borderColor
-                                      /// الError لونو أحمر مثلا
-                                      enabledBorder: _outlineBorder(),
-                                      focusedBorder: _outlineBorder(
-                                        // borderColor: AppColors.darkBlue,
-                                      ),
-                                      disabledBorder: _outlineBorder(),
-                                    ),
-                                    validator: (value) {
-                                      /// اذا فاضية بترجع رسالة عبي الداتا
-                                      if ((value ?? '').isEmpty) return S
-                                          .of(context)
-                                          .pageFillValue;
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    obscureText: isPassword2,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    decoration: InputDecoration(
-                                      labelText: S
-                                          .of(context)
-                                          .pageConfirmpass,
-                                      prefixIcon: Icon(Icons.lock),
-                                      suffixIcon: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isPassword2 = !isPassword2;
-                                            });
-                                          },
-                                          icon: Icon(isPassword2
-                                              ? Icons.visibility_off
-                                              : Icons.visibility)),
-                                      border: _outlineBorder(),
-
-                                      /// دالة الborder يلي بتخلي مدور بس استدعيا
-                                      /// في حال بدك الborder بغير لون بس  جواتا borderColor
-                                      /// الError لونو أحمر مثلا
-                                      enabledBorder: _outlineBorder(),
-                                      focusedBorder: _outlineBorder(
-                                        // borderColor: AppColors.darkBlue,
-                                      ),
-                                      disabledBorder: _outlineBorder(),
-                                    ),
-                                    validator: (value) {
-                                      /// اذا فاضية بترجع رسالة عبي الداتا
-                                      if ((value ?? '').isEmpty) return S
-                                          .of(context)
-                                          .pageFillValue;
-
-                                      if (value == passoredcontroler.text)
-                                        return null;
-                                      return "Password and confirm password do not match";
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: 20, right: 20, top: 10),
-
-                                    padding: EdgeInsets.only(
-                                        left: 20, right: 20),
-
-                                    alignment: Alignment.center,
-
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(colors: [
-                                        (new Color(0xffF5591F)),
-                                        new Color(0xffF2861E)
-                                      ],
-
-                                          begin: Alignment.centerLeft,
-
-                                          end: Alignment.centerRight
-
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-
-                                      boxShadow: const [
-
-                                        BoxShadow(
-
-                                            offset: Offset(0, 10),
-
-                                            blurRadius: 50,
-
-                                            color: Color(0xffEEEEEE)
-
-                                        ),
-
-                                      ],
-
-                                    ),
-
-                                    child: ValueListenableBuilder<bool>(
-                                      valueListenable: _loading,
-                                      builder: (c, value, widget) =>
-                                      value ?
-                                      const CircularProgressIndicator(
-                                        color: Colors.orange,)
-                                          : widget!,
-                                      child: MaterialButton(
-                                        onPressed: () async {
-                                          if (UserImage == null) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'You must upload photo')));
-                                            return ;
-                                          }
-                                          if (formKey.currentState!
-                                              .validate() ) {
-                                            try {
-                                              _loading.value = true;
-                                              await auth.Register.createAccount(
-                                                user:  u.User(
-                                                    photoUrl: '',
-                                                    phoneNumber: phonecontroler.text,
-                                                    email:emailcontroler.text,
-                                                    name: namecontroler.text
-                                                ),
-                                                image: UserImage!, password: passoredcontroler.text, ).then((
-                                                  value) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                    const SnackBar(
-                                                        content: Text(
-                                                            "Your account is created successfully"))
-                                                );
-                                                if(Navigator.of(context).canPop()){
-                                                  Navigator.of(context).pop();
-                                                }else{
-                                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (c)=>HomeScreen()));
-                                                }
-                                              });
-
-                                              _loading.value = false;
-                                            } on Exception catch (e) {
-                                              _loading.value = false;
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                  const SnackBar(content: Text(
-                                                      "Some error happened"))
-                                              );
-                                              print(e.toString());
-                                            }
-                                          }
-                                        },
-                                        child: Text(
-                                          S
-                                              .of(context)
-                                              .pageRegister,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                          }),
+                      }),
                     ),
                   ),
                 ),

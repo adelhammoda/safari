@@ -47,7 +47,6 @@ class _myLoginState extends State<myLogin> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: DrawerWidget(),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -300,6 +299,7 @@ class _myLoginState extends State<myLogin> {
         keyboardType: TextInputType.visiblePassword,
         cursorColor: Color(0xffF5591F),
         decoration: InputDecoration(
+          enabledBorder: InputBorder.none,
           focusColor: Color(0xffF5591F),
           icon: Icon(
             Icons.vpn_key,
