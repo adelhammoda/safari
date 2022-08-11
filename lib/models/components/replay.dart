@@ -17,7 +17,7 @@ class Replay{
 
   factory Replay.fromJson(Map json){
     return Replay(
-      txt:json['txt'],
+      txt:json['txt']??'',
       userId: json['user_id'],
       date: DateTime.parse(json['time']),
       id:json['id']

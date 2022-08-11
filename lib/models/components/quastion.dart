@@ -19,11 +19,11 @@ class Question {
 
   factory Question.fromJson(Map json){
     return Question(
-        id: json['id'],
+        id: json['id']??'',
         loves: Office.convertListOfString(json['love']??[]),
-        userId: json['user_id'],
-        time: DateTime.parse(json['time']),
-        txt: json['txt'],
+        userId: json['user_id']??'',
+        time: DateTime.parse(json['time']??''),
+        txt: json['txt']??'',
         replies: convertToListOfReplay(json['replies']?? {}));
   }
 
@@ -39,6 +39,7 @@ class Question {
   static List<Replay> convertToListOfReplay(Map replay){
     if(replay.isEmpty) return[];
     Map json = {};
+    print(replay);
     List<Replay> res = [];
     replay.forEach((key, value) {
       json = value as Map ;

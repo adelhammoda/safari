@@ -213,6 +213,7 @@ class _MainState extends State<Main> {
             LocalizationCubit.get(context).localization ? 'عروض' : 'OFFERS',
             // 'OFFERS',
             style: Theme.of(context).textTheme.headline1,
+
           ),
         ),
         SizedBox(
