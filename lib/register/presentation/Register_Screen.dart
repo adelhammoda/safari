@@ -16,7 +16,7 @@ import 'package:safari/server/authintacation.dart' as auth;
 import 'package:safari/models/components/user.dart' as u;
 import 'package:safari/tours/tour.dart';
 
-
+/////
 class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
