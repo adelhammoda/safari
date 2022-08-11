@@ -362,6 +362,7 @@ class _HotelState extends State<Hotel> {
 
   final ValueNotifier<bool> _commentLoading = ValueNotifier(false);
   final ValueNotifier<bool> _rateLoading = ValueNotifier(false);
+  final ValueNotifier<bool> _loadingPayment = ValueNotifier(false);
   String? _comment;
 
   Future<u.User?> _getUserData(String userId) async {
@@ -608,7 +609,9 @@ class _HotelState extends State<Hotel> {
                                 Border.all(color: Color(0xffffdd9a), width: 3)),
                         child: Center(
                           child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+
+                              },
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -923,7 +926,7 @@ class _HotelState extends State<Hotel> {
           Divider(
             color: Colors.grey[200],
           ),
-          Padding(
+          const Padding(
             padding: const EdgeInsets.only(right: 238),
             child: Text(
               'Policies',
@@ -964,6 +967,70 @@ class _HotelState extends State<Hotel> {
               ],
             ),
           ),
+          InkWell(
+            onTap:()async{
+              try {
+                if(Authentication.user == null){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (c)=>myLogin()));
+                }
+                debugPrint("loading...");
+                _loadingPayment.value = true;
+                u.User? user = await DataBaseClintServer.getUser(Authentication.user?.email?.split('.').first??'');
+                if(user== null){
+                  _loadingPayment.value = false;
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Cant find user specified")));
+                  return ;
+                }
+                _loadingPayment.value = false;
+                if(widget.isOffer && widget.offer!=null){
+
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (c)=> PaymentHome(
+                          imageUrl: widget.offer!.images.first,
+                          name: widget.offer!.name,
+                          cost: widget.offer!.discount*100/widget.offer!.totalCost,
+                          reservedId:widget.offer!.id,
+                          reservedPath: 'offers/${widget.offer!.id}',
+                          uid:user.id
+                      ))
+                  );
+                }
+
+                // debugPrint("query completed and ther result is $t");
+                // if(t == null){
+                //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Some error happened")));
+                //   return ;
+                // }
+
+              } on Exception catch (e) {
+                debugPrint(e.toString());
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Some error happened")));
+              }
+            },
+            child:ValueListenableBuilder<bool>(
+              child:  Container(
+                width: MediaQuery.of(context).size.width * 0.30,
+                height: (MediaQuery.of(context).size.height) * 0.1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(35),
+                  color: Colors.orange,
+                ),
+                child: Center(
+                  child: Text(
+                    S.of(context).pageBookNow,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              valueListenable: _loadingPayment,
+              builder: (c,value,child)=>value?const CircularProgressIndicator(color: Colors.orange,):
+              child!,
+            ),
+          )
         ],
       ),
     );

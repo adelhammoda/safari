@@ -28,12 +28,11 @@ class Facility {
 }
 
 class Hotel extends Office {
-  String id;
   List<String> roomID;
   List<String> facility;
 
   Hotel(
-      {required this.id,
+      {required super.id,
       required this.roomID,
       required this.facility,
       required super.loves,

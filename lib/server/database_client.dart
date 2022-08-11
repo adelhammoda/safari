@@ -23,6 +23,69 @@ import '../models/offices/hotel.dart';
 import '../models/offices/office.dart';
 
 class DataBaseClintServer {
+  ///get tourist office where match the id
+  ///
+  // static Future<Hotel?> getHotelWhere({
+  //   required String roomId,
+  // }){
+  //   return FirebaseDatabase.instance.ref('hotels').once().then((value) {
+  //     var snapshot = value.snapshot.value;
+  //     Map json = {};
+  //     if(snapshot == null){
+  //       debugPrint('snapshot is null there is no result in tourist office query');
+  //       return null;
+  //     }else if(snapshot != null && snapshot is Map  ){
+  //       snapshot.forEach((key, value) {
+  //         var tours = value['tours'];
+  //         print(tours);
+  //         if(tours is List){
+  //
+  //           if(tours.contains(tourId.substring(1))){
+  //             json = value as Map;
+  //             json.addAll({'id':key});
+  //           }
+  //         }
+  //       });
+  //       debugPrint('query result is $json');
+  //
+  //       return json.isEmpty?null:TouristOffice.fromJson(json);
+  //     }else {
+  //       return null;
+  //     }
+  //   });
+  // }
+
+  ///get tourist office where match the id
+  ///
+  static Future<Offer?> getOfferWhere({
+    required String offerId
+  }){
+    return FirebaseDatabase.instance.ref('offers').once().then((value) {
+      var snapshot = value.snapshot.value;
+      Map json = {};
+      if(snapshot == null){
+        debugPrint('snapshot is null there is no result in tourist office query');
+        return null;
+      }else if(snapshot != null && snapshot is Map  ){
+        snapshot.forEach((key, value) {
+          var tours = value['tours'];
+          print(tours);
+          if(tours is List){
+
+            if(tours.contains(offerId.substring(1))){
+              json = value as Map;
+              json.addAll({'id':key});
+            }
+          }
+        });
+        debugPrint('query result is $json');
+
+        return json.isEmpty?null:Offer.fromJson(json);
+      }else {
+        return null;
+      }
+    });
+  }
   ///get user favorite from device and load them from database
   ///
   static Future<Map<String,List>?> getUserFavorite(List<String> favorites)async{

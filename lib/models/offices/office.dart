@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class OfficeBase {
-  String name;
+  String name,id;
   List<String> loves;
   String city;
   String country;
@@ -17,6 +17,7 @@ abstract class OfficeBase {
 
   OfficeBase({required this.name,
     required this.account,
+    required this.id,
     required this.address,
     required this.description,
     required this.imagesPath,
@@ -36,6 +37,9 @@ abstract class OfficeBase {
 class Office implements OfficeBase {
   @override
   String account;
+
+  @override
+  String id;
 
   @override
   Map<String, String> address;
@@ -68,6 +72,7 @@ class Office implements OfficeBase {
   List<String> loves;
 
   Office({
+    required this.id,
     required this.country,
     required this.stars,
     required this.phone,
@@ -86,7 +91,7 @@ class Office implements OfficeBase {
   factory Office.fromJson(Map json){
     try {
       return Office(
-
+        id:json['id'],
         comments: convertListOfString(json['comments']??[]),
           loves: convertListOfString(json['loves']??[]),
           country: OfficeBase.fromLocation(json['location'], 0),
@@ -103,6 +108,21 @@ class Office implements OfficeBase {
       debugPrint(e.toString());
       throw "Error happened while trying to decode office";
     }
+  }
+
+
+  Map<String, dynamic> toJson(){
+    return {
+      'country':comments,
+      'phone':phone,
+      'images':imagesPath,
+      'description':description,
+      'address':address,
+      'account':account,
+      'name':name,
+      'area':area,
+      'city':city,
+    };
   }
 
   static Map<String,String> convertHashToMap(Map map){

@@ -23,7 +23,7 @@ class Question {
         loves: Office.convertListOfString(json['love']??[]),
         userId: json['user_id'],
         time: DateTime.parse(json['time']),
-        txt: json['txt'],
+        txt: json['txt']??"",
         replies: convertToListOfReplay(json['replies']?? {}));
   }
 

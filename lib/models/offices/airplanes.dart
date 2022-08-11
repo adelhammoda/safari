@@ -1,10 +1,9 @@
 import 'package:safari/models/offices/office.dart';
 
 class Airplanes extends Office {
-  String id;
   List<String> flightId;
 
-  Airplanes({required this.id,
+  Airplanes({required super.id,
     required this.flightId,
     required super.loves,
     required super.comments,

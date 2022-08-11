@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:safari/models/offices/office.dart';
+import 'office.dart';
 
 class Restaurant extends Office {
-  String id;
+
 
   TimeOfDay timeFrom;
   TimeOfDay timeTo;
@@ -11,7 +11,7 @@ class Restaurant extends Office {
 
 
   Restaurant(
-      {required this.id,
+      {required super.id,
       required this.timeFrom,
       required this.timeTo,
       required this.typeOfFood,

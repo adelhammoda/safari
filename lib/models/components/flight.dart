@@ -1,12 +1,10 @@
-import 'package:safari/models/offices/office.dart';
-
 class Flight {
   String id;
-  String from,to;
+  String from, to;
   double cost;
   DateTime dateFrom;
   DateTime dateTo;
-  int numberOfPassengers,passengersCapacity;
+  int numberOfPassengers, passengersCapacity;
   double relax;
 
   Flight({
@@ -25,7 +23,7 @@ class Flight {
     String dateFromFormat = json['date_from'].toString().replaceAll('T', ' ');
     String dateToFormat = json['date_to'].toString().replaceAll('T', ' ');
     return Flight(
-      from: json['from'],
+        from: json['from'],
         id: json['id'],
         cost: convertToDouble(json['cost']),
         dateFrom: DateTime.parse(dateFromFormat),
@@ -33,42 +31,43 @@ class Flight {
         numberOfPassengers: convertToInt(json['number_0f_passengers']),
         passengersCapacity: convertToInt(json['passengers_capacity']),
         to: json['to'],
-    relax: convertToDouble(json['relax']??0));
+        relax: convertToDouble(json['relax'] ?? 0));
   }
 
-  Map<String ,dynamic> joJson(){
-    return{
-      'from':from,
-      'to':to,
-      'passengers_capacity':passengersCapacity,
-      'number_0f_passengers':numberOfPassengers,
-      'date_to':dateFrom.toIso8601String(),
-      'date_from':dateTo.toIso8601String(),
-      'cost':cost,
+  Map<String, dynamic> joJson() {
+    return {
+      'from': from,
+      'to': to,
+      'passengers_capacity': passengersCapacity,
+      'number_0f_passengers': numberOfPassengers,
+      'date_to': dateFrom.toIso8601String(),
+      'date_from': dateTo.toIso8601String(),
+      'cost': cost,
     };
   }
 
-  static int convertToInt(var source){
-    if(source is int){
+  static int convertToInt(var source) {
+    if (source is int) {
       return source;
-    }else if (source is String){
-      return int.tryParse(source)??0;
-    }else if (source is double){
+    } else if (source is String) {
+      return int.tryParse(source) ?? 0;
+    } else if (source is double) {
       return source.toInt();
-    }else {
+    } else {
       return 0;
     }
   }
 
-  static double convertToDouble(var source){
-    if(source is int){
+  static double convertToDouble(var source) {
+    if (source is int) {
       return source.toDouble();
-    }else if (source is String){
-      return double.tryParse(source)??0;
-    }else if (source is double){
+    } else if (source is String) {
+      return double.tryParse(source) ?? 0;
+    } else if (source is double) {
       return source;
-    }else {
+    } else {
       return 0;
     }
   }
 }
+

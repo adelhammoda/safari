@@ -419,6 +419,8 @@ class _RegisterState extends State<Register> {
                                               _loading.value = true;
                                               await auth.Register.createAccount(
                                                 user:  u.User(
+                                                  isVerification: false,
+                                                  isOwner:false,
                                                     photoUrl: '',
                                                     phoneNumber: phonecontroler.text,
                                                     email:emailcontroler.text,

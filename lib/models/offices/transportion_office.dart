@@ -1,11 +1,11 @@
 import 'package:safari/models/offices/office.dart';
 
 class TransportationOffice extends Office {
-  String id;
+
   List<String> carsId;
 
   TransportationOffice(
-      {required this.id,
+      {required super.id,
       required this.carsId,
         required super.loves,
       required super.country,

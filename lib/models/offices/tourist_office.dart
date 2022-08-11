@@ -1,12 +1,12 @@
 import 'package:safari/models/offices/office.dart';
 
 class TouristOffice extends Office {
-  String id;
+
   List<String> toursId;
 
 
   TouristOffice(
-      {required this.id,
+      {required super.id,
       required this.toursId,
         required super.loves,
       required super.country,
