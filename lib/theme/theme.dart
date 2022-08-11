@@ -5,7 +5,7 @@ import 'package:safari/theme/colors/color.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
-    // fontFamily: 'Schyler',
+    fontFamily: "Sriracha",
     scaffoldBackgroundColor: LightColors.white,
     appBarTheme: AppBarTheme(
       backwardsCompatibility: false,

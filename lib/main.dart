@@ -116,6 +116,7 @@ void main() async {
   var isDark = CacheHelper.getBoolean(key: 'isDark');
   await Preferences.init();
   var localization = Preferences.getBooleanLan(key: 'localization');
+
   runApp(MyApp(isDark, localization));
 }
 
@@ -165,6 +166,7 @@ class MyApp extends StatelessWidget {
                   //   const Locale('ar' , ''),
                   // ],
                   supportedLocales: S.delegate.supportedLocales,
+                  debugShowCheckedModeBanner: false,
                   home: SplashScreen(), //const MyHomePage(title: 'Flutter Demo Home Page'),
                 );
               },

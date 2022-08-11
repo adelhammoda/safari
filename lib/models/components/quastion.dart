@@ -19,11 +19,11 @@ class Question {
 
   factory Question.fromJson(Map json){
     return Question(
-        id: json['id'],
+        id: json['id']??'',
         loves: Office.convertListOfString(json['love']??[]),
         userId: json['user_id'],
         time: DateTime.parse(json['time']),
-        txt: json['txt']??"",
+        txt: json['txt'],
         replies: convertToListOfReplay(json['replies']?? {}));
   }
 

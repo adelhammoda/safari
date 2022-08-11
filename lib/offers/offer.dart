@@ -388,7 +388,7 @@ class _HotelState extends State<Hotel> {
     } on Exception catch (e) {
       debugPrint(e.toString());
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Some error happened')));
+          .showSnackBar(const SnackBar(content: Text('Some error happened',)));
       return [];
     }
   }

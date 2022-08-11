@@ -80,6 +80,7 @@ class _ForumsState extends State<Forums> {
       _addingQuestions.value = false;
 
       debugPrint(e.toString());
+      debugPrint("There is some error ==============");
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("some error happened")));
     }
@@ -88,7 +89,9 @@ class _ForumsState extends State<Forums> {
   Future<void> _loadQuestions() async {
     try {
       _loadingQuestions.value = true;
+      print("loading question");
       questions = await DataBaseClintServer.getAllQuestions() ?? [];
+      print(questions);
       _loadingQuestions.value = false;
     } catch (e) {
       _loadingQuestions.value = false;

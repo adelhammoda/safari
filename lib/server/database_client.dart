@@ -248,9 +248,10 @@ class DataBaseClintServer {
       if (value.value == null) {
         return null;
       } else if(map is Map) {
+        debugPrint(map.toString(),wrapWidth: 1200);
         map.forEach((key, value) {
           json = value as Map;
-          print(json);
+
           json.addAll({'id':key});
           res.add(Question.fromJson(json));
         });
