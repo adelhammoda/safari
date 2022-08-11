@@ -73,6 +73,7 @@ import 'dart:ui';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -87,6 +88,7 @@ import 'package:safari/models/components/comments.dart';
 
 import 'package:safari/models/offices/restaurant.dart';
 import 'package:safari/models/offices/transportion_office.dart';
+import 'package:safari/onboarding.dart';
 
 import 'package:safari/server/database_client.dart';
 import 'package:safari/server/database_server.dart';
@@ -109,6 +111,8 @@ import 'models/components/comments.dart' as c;
 
 
 void main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Stripe.publishableKey ='pk_test_51KyxOBKdQHHlIDs4ETU4I8vOoP1j0pLE4maKl2IQoUbJDyW64kfcAyuV4tHJFVajel0KHhdewtynqTIINzUgm4kp00Df4cqho5';
@@ -167,7 +171,8 @@ class MyApp extends StatelessWidget {
                   // ],
                   supportedLocales: S.delegate.supportedLocales,
                   debugShowCheckedModeBanner: false,
-                  home: SplashScreen(), //const MyHomePage(title: 'Flutter Demo Home Page'),
+                  home: IntroScreen(),
+                   //const MyHomePage(title: 'Flutter Demo Home Page'),
                 );
               },
             ),
