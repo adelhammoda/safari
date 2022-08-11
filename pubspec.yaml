@@ -79,6 +79,7 @@ dependencies:
   firebase_database:
   firebase_auth:
   firebase_storage:
+  introduction_screen: ^3.0.2
 
 
 

@@ -425,7 +425,7 @@ class _MainState extends State<Main> {
         SingleChildScrollView(
           //scrollDirection: Axis.horizontal,
           child: SizedBox(
-            height: (MediaQuery.of(context).size.height) - 475,
+            height: (MediaQuery.of(context).size.height) *0.4,
             child: Container(
               child: ListView.builder(
                 itemCount: tours.length,
@@ -450,7 +450,7 @@ class _MainState extends State<Main> {
                               image: NetworkImage(tours[index].images.first),
                               width: (MediaQuery.of(context).size.width) - 190,
                               height:
-                                  (MediaQuery.of(context).size.height) - 630,
+                                  (MediaQuery.of(context).size.height) *0.15,
                               fit: BoxFit.cover,
                             ),
                           ],
